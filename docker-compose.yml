@@ -19,6 +19,15 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+  frontend:
+    restart: always
+    build: ./
+    command: >
+      bash -c "cd ./pubtrack/frontend && npm run serve"
+    volumes:
+      - ./:/code
+    ports:
+      - "8080:8080"
   documentation:
     restart: always
     build: ./
@@ -26,4 +35,4 @@ services:
     volumes:
       - ./:/code
     ports:
-      - "8001:8005"
+      - "8005:8001"

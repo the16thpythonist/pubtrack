@@ -22,6 +22,11 @@ class Common(Configuration):
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
 
+        # 20.05.2020
+        # This app is important for development with VueJS frontend. It will synchronize the Vue development server
+        # with the templates rendered by django
+        'webpack_loader',
+        
         # Your apps
         'pubtrack.users',
 
@@ -86,7 +91,7 @@ class Common(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': STATICFILES_DIRS,
+            'DIRS': [os.path.join(BASE_DIR, 'templates')],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -198,4 +203,13 @@ class Common(Configuration):
             'rest_framework.authentication.SessionAuthentication',
             'rest_framework.authentication.TokenAuthentication',
         )
+    }
+
+    # 20.05.2020
+    # config for "django-webpack-loader"
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'dist/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json')
+        }
     }

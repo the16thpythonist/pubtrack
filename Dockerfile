@@ -5,6 +5,23 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+
+# INSTALLING NPM AND NODE
+# ***********************
+
+# and install dependencies
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get -y autoclean
+
+# Using Debian, as root
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && apt-get install -y nodejs
+
+# confirm installation
+RUN node -v
+RUN npm -v
+
 # Adds our application code to the image
 COPY . code
 WORKDIR code
