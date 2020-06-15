@@ -23,6 +23,8 @@ ipdb==0.13.2
 ipython==7.14.0
 mkdocs==1.1.2
 flake8==3.8.1
+# 21.05.2020
+django-extensions==2.2.9
 
 # Testing
 mock==4.0.2
@@ -38,3 +40,4 @@ boto3==1.13.12
 # 20.05.2020
 # For development with VueJS synchronization
 django-webpack-loader==0.6.0
+django-cors-headers==3.3.0

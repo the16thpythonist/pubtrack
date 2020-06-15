@@ -29,18 +29,29 @@ class Common(Configuration):
         
         # Your apps
         'pubtrack.users',
+        # 21.05.2020
+        'pubtrack.pubs',
+        'pubtrack.spa',
+        
+        'django_extensions',
 
+        # development 27.05.2020
+        'corsheaders'
     )
 
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
     MIDDLEWARE = (
+        # development only
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
+        'corsheaders.middleware.CorsPostCsrfMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     )
 
     ALLOWED_HOSTS = ["*"]
@@ -190,7 +201,7 @@ class Common(Configuration):
     # Django Rest Framework
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-        'PAGE_SIZE': int(os.getenv('DJANGO_PAGINATION_LIMIT', 10)),
+        'PAGE_SIZE': int(os.getenv('DJANGO_PAGINATION_LIMIT', 100)),
         'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S%z',
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
@@ -212,4 +223,11 @@ class Common(Configuration):
             'BUNDLE_DIR_NAME': 'dist/',
             'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json')
         }
+    }
+
+    CORS_ORIGIN_ALLOW_ALL = True
+    CORS_REPLACE_HTTPS_REFERER = True
+    # CONFIG FOR THE PUBS APP
+    PUBS_CONFIG = {
+        'accepted_pofs': ['IPE.2129.rest']
     }

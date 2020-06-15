@@ -35,3 +35,8 @@ No worries though you dont have to apply them. This is automatically being done 
 docker-compose run --rm web python manage.py makemigrations
 ```
 
+Delete all database records
+
+```bash
+docker-compose run --rm web python manage.py flush
+```
