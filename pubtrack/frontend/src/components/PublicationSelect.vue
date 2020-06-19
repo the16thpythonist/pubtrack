@@ -15,8 +15,12 @@
                     :key="i"
                     :class="rowClasses(i)">
                 <div class="base-information">
-                    <div class="column1 publication-name">
-                        {{ getPublicationName(publication) }}
+                    <div class="column1">
+                        <router-link
+                                class="publication-name"
+                                :to="{name: 'publication-detail', params: {'uuid': publication['uuid']}}">
+                            <em>{{ getPublicationFirstAuthor(publication) }} et al. </em> {{ publication['title'] }}
+                        </router-link>
                     </div>
                     <div class="column2 publication-authors">
                         <router-link
@@ -117,6 +121,9 @@
                 let author = publication['authors'][0] ? publication['authors'][0]['last_name'] : 'None';
                 return `${author} et al. ${title}`;
             },
+            getPublicationFirstAuthor(publication) {
+                return publication['authors'][0] ? publication['authors'][0]['last_name'] : 'None';
+            },
             onInput(event, publication) {
                 let checked = event.target.checked;
                 console.log(checked);
@@ -207,6 +214,8 @@
 
     .publication-name {
         font-size: 1.1em;
+        text-decoration: none;
+        color: black;
     }
 
     .warning {

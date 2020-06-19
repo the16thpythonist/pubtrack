@@ -213,7 +213,8 @@ class PublicationSerializer(serializers.ModelSerializer):
         return get_doi_url(obj.doi) if obj.doi else ''
 
     def get_scopus_url(self, obj):
-        return get_scopus_url(obj.scopus_id) if obj.scopus_id else ''
+        # return get_scopus_url(obj.scopus_id) if obj.scopus_id else ''
+        return ''
 
     def get_kitopen_url(self, obj):
         return get_kitopen_url(obj.kitopen_id) if obj.kitopen_id else ''
