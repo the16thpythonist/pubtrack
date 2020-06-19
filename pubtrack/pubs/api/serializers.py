@@ -16,6 +16,9 @@ from pubtrack.pubs.models import (Institution,
                                   Authoring,
                                   Affiliation,
                                   Blacklisting)
+from pubtrack.pubs.utils import (get_doi_url,
+                                 get_kitopen_url,
+                                 get_scopus_url)
 
 
 class AuthorBriefField(serializers.RelatedField):
@@ -207,13 +210,13 @@ class PublicationSerializer(serializers.ModelSerializer):
         return meta_authors.values()
 
     def get_doi_url(self, obj):
-        return "https://google.de"
+        return get_doi_url(obj.doi) if obj.doi else ''
 
     def get_scopus_url(self, obj):
-        return "https://google.de"
+        return get_scopus_url(obj.scopus_id) if obj.scopus_id else ''
 
     def get_kitopen_url(self, obj):
-        return "https://google.de"
+        return get_kitopen_url(obj.kitopen_id) if obj.kitopen_id else ''
 
 
 class MetaAuthorBriefField(serializers.RelatedField):
