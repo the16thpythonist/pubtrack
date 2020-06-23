@@ -68,6 +68,8 @@ class Publication(TimeStampedModel):
     # ---------------------
 
     scopus_id = models.CharField(max_length=80, blank=True, null=True, unique=True)
+    # 19.06.2020: So apparently you need the eid of a publication to access the scopus detail page of that publication
+    eid = models.CharField(max_length=80, blank=True, null=True, unique=True)
 
     # KITOPEN RELATED FIELDS
     # -----------------------
