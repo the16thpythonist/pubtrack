@@ -77,3 +77,21 @@ KITOpen support of the faulty entry.
 Implementation
 --------------
 
+For the implementation of the application it was attempted to follow the modern web design best practices by creating
+a separate frontend and backend application.
+
+The server backend with the actual database is implemented in Python. The server is based on the Django REST
+framework. The server simply exposes a REST Api for access to the relevant data. It does not actually render the
+application HTML.
+
+The frontend is based on a VueJS single-page application (SPA). The frontend application consumes the REST Api to
+provide the necessary functionality to the user.
+
+Developed for Docker
+""""""""""""""""""""
+
+The basic skeleton for the backend server was constructed using *python cookiecutter*, specifically the template
+*cookiecutter-django-rest*
+
+The template makes heavy usage of the *docker-compose* environment, which is used to run the several parts of the
+application in the development environment.
