@@ -1,5 +1,5 @@
 General Information
-===================
+*******************
 
 This chapter contains general information about the pubtrack application. This includes its purpose, how it works and
 what functionality it offers. The last section will be a rough overview of the architecture of the application for
