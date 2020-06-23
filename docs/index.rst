@@ -9,7 +9,8 @@ Welcome to pubtrack's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   development.rst
+   general
+   development
 
 
 Indices and tables
