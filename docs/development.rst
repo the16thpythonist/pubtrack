@@ -29,6 +29,6 @@ install both *docker* and *docker-compose*
     sudo apt-get install docker
     sudo apt-get install docker-compose
 
-
+Realistically I would need a VM to test this...
 
 
