@@ -3,30 +3,40 @@
         <h1 class="title">KITOpen Analytics</h1>
 
         <!-- Add the filters -->
-        <ArrayFilters
+        <MapFilters
                 :base="publications"
                 v-model="filteredPublications"
                 :filters="filters">
-        </ArrayFilters>
+        </MapFilters>
 
-        <InputArrayFilter
+        <InputMapFilter
+                title="Search in POF and title:"
                 :base="filteredPublications"
                 v-model="filteredPublications2"
                 :filter="pofFilter">
-        </InputArrayFilter>
+        </InputMapFilter>
 
         <!-- Make this its own widget -->
         <PublicationSelect
                 v-model="selectedPublications"
-                :publications="filteredPublications2">
+                :publications-map="filteredPublications2">
         </PublicationSelect>
 
-        <!-- Button for export to pdf or smth. else -->
-        <ArrayMapDisplay
-                title="Selected Publications:"
-                :value="selectedPublications"
-                :mapFunc="exportPublication">
-        </ArrayMapDisplay>
+        <h1>Actions</h1>
+
+        <TabbedBox
+                height="400px"
+                default="email"
+                :headers="{email: 'Generate Change Request', search: 'KITOpen Search Parameters', import: 'KITOpen Import'}">
+            <template v-slot:email>
+                <InputTextGenerator
+                        :value="selectedPublications"
+                        :inputs="parametersEmail"
+                        :generate="generateEmail"/>
+            </template>
+        </TabbedBox>
+
+
     </div>
 </template>
 
@@ -35,74 +45,88 @@
 
     // Vue Components
     import PublicationSelect from "../components/PublicationSelect";
-    import ArrayFilters from "../components/ArrayFilters";
-    import ArrayMapDisplay from "../components/ArrayMapDisplay";
-    import InputArrayFilter from "../components/InputArrayFilter";
+    import MapFilters from "../components/MapFilters";
+    import InputMapFilter from "../components/InputMapFilter";
+    import TabbedBox from "../components/TabbedBox";
+    import InputTextGenerator from "../components/InputTextGenerator";
 
     export default {
         name: "KITOpenCoverage",
         components: {
-            ArrayMapDisplay,
+            InputTextGenerator,
+            MapFilters,
+            InputMapFilter,
             PublicationSelect,
-            ArrayFilters,
-            InputArrayFilter
+            TabbedBox
         },
         data: function () {
             return {
                 api: new api.Api(),
-                publications: [],
-                filteredPublications: [],
-                filteredPublications2: [],
+                publications: new Map(),
+                filteredPublications: new Map(),
+                filteredPublications2: new Map(),
                 selectedPublications: {},
+                // FILTERING THE PUBLICATIONS
                 filters: {
-                    kitopen:  {
-                        name:       'On KITOpen',
-                        active:     false,
-                        func:       function (publications) {
-                            return publications.filter(function (publication) {
-                                return publication['on_kitopen'];
-                            })
-                        }
-                    },
                     notkitopen:  {
                         name:       'Not On KITOpen',
                         active:     false,
                         func:       function (publications) {
-                            return publications.filter(function (publication) {
-                                return !publication['on_kitopen'];
-                            })
+                            let result = new Map();
+                            for (let [uuid, publication] of publications) {
+                                if (!publication['on_kitopen']) {result.set(uuid, publication); }
+                            }
+                            return result;
                         }
                     },
-                    warning: {
-                        name:       'Unresolved Warnings',
-                        active:     false,
-                        func:       function (publications) {
-                            return publications.filter(function (publication) {
-                                return publication['status']['type'] === 'warn';
-                            })
-                        }
-                    },
-                    permitted: {
-                        name:       'Permitted Warnings',
-                        active:     false,
-                        func:       function (publications) {
-                            return publications.filter(function (publication) {
-                                return publication['status']['type'] === 'perm';
-                            })
-                        }
-                    }
                 },
                 pofFilter: {
                     placeholder: 'POF Structure must include:',
                     func(publications, input) {
-                        return publications.filter(function (publication) {
-                            if (input === '') return true;
-                            return (publication['pof_structure'] !== null) &&
-                                   (publication['pof_structure'].includes(input));
-                        })
+                        let result = new Map();
+                        for (let [uuid, publication] of publications) {
+                            let in_title = publication['title'].includes(input);
+                            let in_pof = publication['pof_structure'] !== null &&
+                                         publication['pof_structure'].includes(input);
+
+                            if (in_title || in_pof) {
+                                result.set(uuid, publication);
+                            }
+                        }
+                        return result;
                     }
                 },
-                selectedPublicationsJSON: ''
+                // ACTIONS TO PROCESS SELECTED PUBLICATIONS
+                // ****************************************
+                // EMAIL GENERATION
+                parametersEmail: {
+                    fullname: {
+                        label:          'Full Name',
+                        description:    'The full name will be inserted as the sender in the footer of the mail body',
+                        placeholder:    'Enter Full Name...'
+                    },
+                    newpof: {
+                        label:          'New POF Structure',
+                        description:    'This will the pof structure to which all the publications are to be changed to',
+                        placeholder:    'Enter Valid POF Structure...'
+                    }
+                },
+                generateEmail(parameters, value) {
+                    // value in this case is the object of selected publications
+                    let parts = [
+                        'Dear KITOpen Team,S\n',
+                        'Would you be so kind to change the POF structures on the following publications:\n'
+                    ];
+                    for (let [uuid, publication] of Object.entries(value)) {
+                        let item = ` - KITOpen ID: ${publication['kitopen_id']}\n` +
+                                   `   New POF Structure: ${parameters['newpof']}\n`;
+                        parts.push(item)
+                    }
+                    parts.push('Thank you!\n');
+                    parts.push('Best regards,');
+                    parts.push(parameters['fullname']);
+                    return parts.join('\n');
+                }
             }
         },
         methods: {
@@ -120,20 +144,15 @@
                 let self = this;
                 this.api.getPublicationList()
                     .then(function (publications) {
-                        self.publications = publications;
-                    })
-            },
-            exportPublication: function (publication) {
-                return {
-                    'title':        publication['title'],
-                    'on_kitopen':   publication['on_kitopen'],
-                    'meta_authors': publication['meta_authors'].map(function (metaAuthor) {
-                        return {
-                            'slug':         metaAuthor['slug'],
-                            'full_name':    metaAuthor['first_name'] + ' ' + metaAuthor['last_name']
+                        let result = new Map();
+                        // 27.06.2020 Changed it so that it now assigns the porperties of an object, because
+                        // I essentially want to store them in an assoc array (=object)
+                        for (let publication of publications) {
+                            let uuid = publication['uuid'];
+                            result.set(uuid, publication);
                         }
+                        self.publications = result;
                     })
-                }
             }
         },
         created() {

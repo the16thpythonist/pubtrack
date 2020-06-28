@@ -33,7 +33,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### COLORS
 
-strong green: #00d52f
+strong green: #00D52F
 intermediate green: #5CFF7F
 light green: #D6FFDF
 
@@ -45,5 +45,6 @@ Strong Red: #D8000C
 Intermediate Red: #FF5C64
 Very Light Red: #FFC2C5
 
-intermediate gray: #9b9b9b
+Strong gray: #3D3D3D
+intermediate gray: #9B9B9B
 light gray: #b9b9b9

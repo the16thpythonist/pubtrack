@@ -8,7 +8,7 @@ from pubtrack.pubs.models import (Institution,
                                   PublicationStatus,
                                   Author,
                                   MetaAuthor)
-from pubtrack.pubs.status import create_publication_status
+from pubtrack.pubs.status import create_publication_status, update_publication_status
 
 # SLUG GENERATION
 
@@ -131,4 +131,4 @@ def add_status_to_publication(sender, instance, *args, **kwargs):
             print("Added a new PublicationStatus", obj)
         else:
             # In this case it has to be updated...
-            pass
+            obj = update_publication_status(instance)

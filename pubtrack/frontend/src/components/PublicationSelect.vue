@@ -6,14 +6,20 @@
             <div class="column2">Watched Authors</div>
             <div class="column3">KITOpen?</div>
             <div class="column4">POF Structure</div>
-            <div class="column5">Select</div>
+            <div class="column5">
+                <em
+                        class="select-all"
+                        @click.prevent="selectAll">
+                    {{ allSelected ? 'Unselect' : 'Select' }}
+                </em>
+            </div>
         </div>
         <div class="selection">
             <div
                     class="publication"
-                    v-for="(publication, i) in publications"
-                    :key="i"
-                    :class="rowClasses(i)">
+                    v-for="(publication, uuid) of publications"
+                    :key="uuid"
+                    :class="rowClasses(uuid)">
                 <div class="base-information">
                     <div class="column1">
                         <router-link
@@ -42,6 +48,7 @@
                             type="checkbox"
                             class="select"
                             :label="publication['slug']"
+                            v-model="selected[uuid]"
                             @input="onInput($event, publication)">
                     </div>
                 </div>
@@ -74,7 +81,7 @@
                                 </a>
                             </span>
                             <h4>Publication Status:</h4>
-                            <PublicationStatusEditor v-model="publications[i]">
+                            <PublicationStatusEditor v-model="publications[uuid]">
                             </PublicationStatusEditor>
                         </div>
                     </template>
@@ -104,65 +111,56 @@
                 type:       Object,
                 required:   true
             },
-            publications: {
-                type:       Array,
+            publicationsMap: {
+                type:       Map,
                 required:   true
             }
         },
         data: function () {
             return {
+                publications: {},
                 selected: {},
-                api: new api.Api()
+                api: new api.Api(),
+                allSelected: false
             }
         },
         methods: {
-            getPublicationName(publication) {
-                let title = publication['title'];
-                let author = publication['authors'][0] ? publication['authors'][0]['last_name'] : 'None';
-                return `${author} et al. ${title}`;
+            selectAll() {
+                for (let [uuid, publication] of Object.entries(this.publications)) {
+                    if (!this.allSelected) {
+                        this.$set(this.selected, uuid, publication);
+                    } else {
+                        this.$delete(this.selected, uuid);
+                    }
+                }
+                this.allSelected = !this.allSelected;
+                this.emitInput();
             },
             getPublicationFirstAuthor(publication) {
                 return publication['authors'][0] ? publication['authors'][0]['last_name'] : 'None';
             },
             onInput(event, publication) {
-                let checked = event.target.checked;
-                console.log(checked);
-                if (checked) {
-                    this.$set(this.selected, publication['uuid'], publication);
-                } else {
-                    this.$delete(this.selected, publication['uuid']);
-                }
                 this.emitInput();
             },
             emitInput() {
                 this.$emit('input', this.selected);
             },
-            rowClasses(index) {
-                let publication = this.publications[index];
+            rowClasses(uuid) {
+                let publication = this.publications[uuid];
                 let status = publication['status']['type'];
                 return {
                     publication:        true,
                     warning:            status === 'warn',
                     resolved:           status === 'solv',
-                    permitted:          status === 'perm'
+                    permitted:          status === 'perm',
+                    pending:            status === 'pend'
                 }
-            },
-            setPermitted(index) {
-                console.log(index);
-                let publication = this.publications[index];
-                let uuid = publication['uuid'];
-                let solution = publication['status']['_input'];
-                // In case of success updating the info, else logging
-                this.api.setPublicationStatusPermitted(uuid, solution)
-                    .then(function (data) {
-                        console.log(data);
-                        publication['status']['solution'] = solution;
-                        publication['status']['type'] = 'perm';
-                    })
-                    .catch(function (error) {
-                        console.log("Could not set publication status to premitted");
-                        console.log(error);
-                    });
+            }
+        },
+        watch: {
+            publicationsMap(newVal) {
+                this.publications = Object.fromEntries(newVal);
+                this.selected = {}
             }
         }
     }
@@ -233,6 +231,11 @@
         border-color: #85A9FF;;
     }
 
+    .pending {
+        background-color: #FFFAEB;
+        border-color: #FFE085;
+    }
+
     /* LAYOUT OF THE TABLE */
 
     .column0 {
@@ -246,18 +249,22 @@
 
     .column2 {
         min-width: 20%;
+        max-width: 20%;
     }
 
     .column3 {
         min-width: 10%;
+        max-width: 10%;
     }
 
     .column4 {
         min-width: 15%;
+        max-width: 15%;
     }
 
     .column5 {
-        min-width: 5%;
+        min-width: 7%;
+        max-width: 7%;
     }
 
     .publication-authors>*{
@@ -287,6 +294,10 @@
         width: 30px;
         height: 20px;
         background-color: #42b983;
+    }
+
+    .select-all {
+        cursor: pointer;
     }
 
 </style>

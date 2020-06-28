@@ -1,6 +1,7 @@
 # 20.05.2020
 # Everything related to PyCharm
 .idea/
+.explore/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

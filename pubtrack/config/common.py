@@ -229,5 +229,5 @@ class Common(Configuration):
     CORS_REPLACE_HTTPS_REFERER = True
     # CONFIG FOR THE PUBS APP
     PUBS_CONFIG = {
-        'accepted_pofs': ['IPE.2129.rest']
+        'accepted_pofs': ['54.02.02 (POF III, LK 01)']
     }

@@ -28,11 +28,11 @@ services:
       - ./:/code
     ports:
       - "8080:8080"
-  documentation:
-    restart: always
-    build: ./
-    command: "mkdocs serve"
-    volumes:
-      - ./:/code
-    ports:
-      - "8005:8001"
+#  documentation:
+#    restart: always
+#    build: ./
+#    command: "mkdocs serve"
+#    volumes:
+#      - ./:/code
+#    ports:
+#      - "8005:8001"
