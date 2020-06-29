@@ -4,8 +4,8 @@
             <span class="column0 header-offset"></span>
             <div class="column1">Publication Info</div>
             <div class="column2">Watched Authors</div>
-            <div class="column3">KITOpen?</div>
-            <div class="column4">POF Structure</div>
+            <div class="column3">KIT Open?</div>
+            <div class="column4">POF Struct.</div>
             <div class="column5">
                 <em
                         class="select-all"
@@ -45,6 +45,7 @@
                     </div>
                     <div class="column5 publication-select-wrapper">
                         <Checkbox
+                                class="select"
                                 :value="!!selected[uuid]"
                                 @input="onSelect($event, uuid)"/>
                     </div>
@@ -195,11 +196,6 @@
         background-color: #e6e6e6;
     }
 
-    .select {
-        width: 40px;
-        margin: 0;
-    }
-
     /* STYLE OF THE ROWS */
 
     h4 {
@@ -314,7 +310,7 @@
     }
 
     .select {
-        height: 2.2em;
+        margin-left: 13px;
     }
 
 </style>

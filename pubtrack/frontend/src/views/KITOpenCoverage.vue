@@ -79,13 +79,24 @@
                             return result;
                         }
                     },
+                    warning: {
+                        name:       'Unresolved Warning',
+                        active:     false,
+                        func:       function(publications) {
+                            let result = new Map();
+                            for (let [uuid, publication] of publications) {
+                                if (publication['status']['type'] === 'warn') {result.set(uuid, publication); }
+                            }
+                            return result;
+                        }
+                    }
                 },
                 pofFilter: {
-                    placeholder: 'POF Structure must include:',
+                    placeholder: 'Must include...',
                     func(publications, input) {
                         let result = new Map();
                         for (let [uuid, publication] of publications) {
-                            let in_title = publication['title'].includes(input);
+                            let in_title = publication['title'].toLowerCase().includes(input);
                             let in_pof = publication['pof_structure'] !== null &&
                                          publication['pof_structure'].includes(input);
 

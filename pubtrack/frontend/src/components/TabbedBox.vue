@@ -103,5 +103,6 @@
     .content {
         margin: 0;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 </style>

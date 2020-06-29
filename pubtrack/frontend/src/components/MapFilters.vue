@@ -195,6 +195,11 @@
 </script>
 
 <style scoped>
+    .title {
+        margin-bottom: 5px;
+
+    }
+
     .checkbox {
         transform: scale(0.7);
         margin-right: 10px;

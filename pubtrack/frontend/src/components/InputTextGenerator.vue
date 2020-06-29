@@ -142,6 +142,7 @@
     textarea {
         padding: 5px;
         min-height: 150px;
-        min-width: 100%;
+        min-width: 98%;
+        max-width: 98%;
     }
 </style>
