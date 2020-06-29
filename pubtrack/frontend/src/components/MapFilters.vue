@@ -1,16 +1,16 @@
 <template>
     <div class="container">
         <span class="title">
-            Filters:
+            {{ title }}:
         </span>
         <div
                 class="element"
                 v-for="(filter, key) in filters"
                 :key="key">
-            <input
-                    type="checkbox"
+            <Checkbox
+                    class="checkbox"
                     :id="key"
-                    @input="onInput($event, filter)">
+                    @input="onSelect($event, filter)"/>
             <label
                     :for="key">
                 {{ filter['name'] }}
@@ -20,6 +20,9 @@
 </template>
 
 <script>
+
+    import Checkbox from "./Checkbox";
+
     /**
      * A set of custom filters to be dynamically applied to an array.
      *
@@ -90,6 +93,7 @@
      */
     export default {
         name: "MapFilters",
+        components: {Checkbox},
         props: {
             /**
              * The base map on which all the filters will be applied
@@ -111,6 +115,11 @@
             filters: {
                 type:       Object,
                 required:   true
+            },
+            title: {
+                type:       String,
+                required:   false,
+                default:    'Filters'
             }
         },
         // data: function () {
@@ -134,6 +143,11 @@
                 // checkbox element and event.target.checked will the boolean state of the checkbox which fired the e
                 // event.
                 filter['active'] = event.target.checked;
+                let result = this.applyAllFilters(this.base);
+                this.emit(result);
+            },
+            onSelect(value, filter) {
+                filter['active'] = value;
                 let result = this.applyAllFilters(this.base);
                 this.emit(result);
             },
@@ -181,5 +195,15 @@
 </script>
 
 <style scoped>
+    .checkbox {
+        transform: scale(0.7);
+        margin-right: 10px;
+    }
 
+    .element {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+    }
 </style>

@@ -7,7 +7,6 @@ function Api() {
     const BASE_URL = "http://0.0.0.0:8000/api/v1";
 
     // PRIVATE METHODS
-    console.log(CSRF_TOKEN);
     this.axios = axios.create({
         baseURL: BASE_URL,
         timeout: 1000,

@@ -44,12 +44,9 @@
                         {{  publication['pof_structure'] ? publication['pof_structure'] : "-" }}
                     </div>
                     <div class="column5 publication-select-wrapper">
-                        <input
-                            type="checkbox"
-                            class="select"
-                            :label="publication['slug']"
-                            v-model="selected[uuid]"
-                            @input="onInput($event, publication)">
+                        <Checkbox
+                                :value="!!selected[uuid]"
+                                @input="onSelect($event, uuid)"/>
                     </div>
                 </div>
                 <DropDownExtendBox
@@ -98,13 +95,15 @@
     import BooleanIcon from "./BooleanIcon";
     import DropDownExtendBox from "./DropDownExtendBox";
     import PublicationStatusEditor from "./PublicationStatusEditor";
+    import Checkbox from "./Checkbox";
 
     export default {
         name: "PublicationSelect",
         components: {
             PublicationStatusEditor,
             BooleanIcon,
-            DropDownExtendBox
+            DropDownExtendBox,
+            Checkbox
         },
         props: {
             value: {
@@ -127,11 +126,7 @@
         methods: {
             selectAll() {
                 for (let [uuid, publication] of Object.entries(this.publications)) {
-                    if (!this.allSelected) {
-                        this.$set(this.selected, uuid, publication);
-                    } else {
-                        this.$delete(this.selected, uuid);
-                    }
+                    this.selectPublication(!this.allSelected, uuid, publication);
                 }
                 this.allSelected = !this.allSelected;
                 this.emitInput();
@@ -141,6 +136,17 @@
             },
             onInput(event, publication) {
                 this.emitInput();
+            },
+            onSelect(value, uuid) {
+                this.selectPublication(value, uuid, this.publications[uuid]);
+                this.emitInput();
+            },
+            selectPublication(select, uuid, publication) {
+                if (select) {
+                    this.$set(this.selected, uuid, this.publications[uuid]);
+                } else {
+                    this.$delete(this.selected, uuid);
+                }
             },
             emitInput() {
                 this.$emit('input', this.selected);
@@ -296,8 +302,19 @@
         background-color: #42b983;
     }
 
+    /* SELECTING THE PUBLICATIONS */
+
     .select-all {
         cursor: pointer;
+    }
+
+    .publication-select-wrapper{
+        height: auto;
+        align-self: center;
+    }
+
+    .select {
+        height: 2.2em;
     }
 
 </style>
