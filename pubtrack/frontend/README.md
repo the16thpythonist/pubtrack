@@ -47,4 +47,5 @@ Very Light Red: #FFC2C5
 
 Strong gray: #3D3D3D
 intermediate gray: #9B9B9B
-light gray: #b9b9b9
+light gray: #B9B9B9
+Very light gray: #EBEBEB
