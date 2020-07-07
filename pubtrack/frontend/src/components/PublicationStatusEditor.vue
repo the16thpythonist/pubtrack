@@ -186,7 +186,7 @@
         width: 28px;
 
         padding: 0;
-        background-color: rgba(159,159,159);
+        background-color: rgba(159,159,159, 1);
 
         text-align: center;
             color: white;

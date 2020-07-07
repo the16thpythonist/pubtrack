@@ -27,12 +27,59 @@
         <TabbedBox
                 height="400px"
                 default="email"
-                :headers="{email: 'Generate Change Request', search: 'KITOpen Search Parameters', import: 'KITOpen Import'}">
+                :headers="{email: 'POF Change Request', search: 'KITOpen Search Parameters'}">
             <template v-slot:email>
+                <h3>Instructions</h3>
+                <p>
+                    The widget below will automatically generate an email body to form a request to the KITOpen
+                    Support team. This email will request a change of the POF structure of all the selected
+                    publications to a different POF structure.
+                </p>
+                <p>
+                    To generate the email content please enter your full name (which will be used in the footer section
+                    of the email to identify yourself) and the string name of the new POF structure to which all the
+                    publications are supposed to be changed to.<br>
+                    After entering the details hit the <em>Generate!</em> button and the email content will appear
+                    within the text area below.
+                </p>
                 <InputTextGenerator
                         :value="selectedPublications"
                         :inputs="parametersEmail"
                         :generate="generateEmail"/>
+            </template>
+            <template v-slot:search>
+                <h3>Instructions</h3>
+                <p>
+                    Visit the <a href="https://dbkit.bibliothek.kit.edu/start.php" target="_blank">KITOpen Depositing and Publishing</a>
+                    web application.
+                </p>
+                <p>
+                    Navigate to the <em>Search Form</em>, which is typically displayed on the left-hand side of the
+                    screen. Once in the search use the list of KITOpen ID's below to open the individual publications.
+                    Do so by copying the ID's below and inserting them into the search box <em>KITOpen ID</em> before
+                    hitting the enter key.<br>
+                    The ID's in the list below can be copied to the clipboard automatically by pressing the icon beside
+                    them. After pressing this icon the ID will also turn gray to visually indicate, that it has already
+                    been copied.
+                </p>
+                <p>
+                    Once a new page opens click the green <em>Show search result</em> button in the upper right hand
+                    corner of the screen to view the publication details. You can now proceed to edit the publication...
+                </p>
+                <p>
+                    ID's of the selected publications:
+                </p>
+                <div
+                        style="margin-bottom: 10px;"
+                        v-for="publication of selectedPublications">
+                    <div style="margin-bottom: 5px; font-size: 0.9em; color: gray;">
+                        {{ publication['title'] }}
+                    </div>
+                    <ClipboardInline >
+                        {{publication['kitopen_id']}}
+                    </ClipboardInline>
+                </div>
+
             </template>
         </TabbedBox>
 
@@ -49,10 +96,12 @@
     import InputMapFilter from "../components/InputMapFilter";
     import TabbedBox from "../components/TabbedBox";
     import InputTextGenerator from "../components/InputTextGenerator";
+    import ClipboardInline from "../components/ClipboardInline";
 
     export default {
         name: "KITOpenCoverage",
         components: {
+            ClipboardInline,
             InputTextGenerator,
             MapFilters,
             InputMapFilter,

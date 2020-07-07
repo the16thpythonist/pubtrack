@@ -30,6 +30,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 [Color Palette](https://coolors.co/9be564-f5b700-39a9db-ff9f1c-f7fff7)
 
+### Credits
+
+Using [GSAP](https://greensock.com/gsap/) for the animations 
 
 ### COLORS
 
