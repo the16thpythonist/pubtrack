@@ -30,6 +30,7 @@
                     </div>
                     <div class="column2 publication-authors">
                         <router-link
+                                class="publication-author"
                                 v-for="metaAuthor in publication['meta_authors']"
                                 :key="metaAuthor['slug']"
                                 :to="{name: 'author-detail', params: {slug: metaAuthor['slug']}}">
@@ -247,6 +248,7 @@
     .column1 {
         flex-grow: 2;
         width: auto;
+        margin-right: 15px;
     }
 
     .column2 {
@@ -311,6 +313,40 @@
 
     .select {
         margin-left: 13px;
+    }
+
+    .publication-author {
+        display: inline-flex;
+        position: relative;
+
+        height: 22px;
+        padding-right: 5px;
+        padding-left: 5px;
+
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        line-height: 22px;
+        font-size: 0.9em;
+        font-family: sans-serif;
+
+        color: #373737;
+        background-color: rgba(0,0,0,0.25);
+
+        border-radius: 0px 2px 2px 0px;
+    }
+
+    .publication-author:before {
+        content: "";
+        position: absolute;
+
+        width: 0;
+        height: 0;
+        border-top: 11px solid transparent;
+        border-right: 8px solid rgba(0,0,0,0.25);
+        border-bottom: 11px solid transparent;
+
+        transform: translate(-13px, 0px);
     }
 
 </style>
