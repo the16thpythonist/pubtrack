@@ -3,12 +3,14 @@
         <div
                 class="true"
                 v-show="value === true">
-            YES
+            <div class="tick-icon">
+            </div>
         </div>
         <div
                 class="false"
                 v-show="value !== true">
-            NO
+            <div class="cross-icon">
+            </div>
         </div>
     </div>
 </template>
@@ -49,21 +51,78 @@
         color: green;
     }
 
-    .checkmark {
-        height: 30px;
-        width: 30px;
-        border-radius: 15px;
-        background-color: green;
-    }
-
-    .cross {
-        height: 30px;
-        width: 30px;
-        border-radius: 15px;
-        background-color: red;
-    }
-
     .false {
-        color: red;
+        color: #ff4853;
+    }
+
+
+    .tick-icon {
+        position: relative;
+
+        width: 30px;
+        height: 30px;
+
+        border-radius: 15px;
+
+        background-color: #5ad75a;
+    }
+
+    .tick-icon:before {
+        content: "";
+        position: absolute;
+
+        background-color: white;
+
+        height: 14px;
+        width: 4px;
+
+        transform: translate(15px, 9px) rotate(45deg);
+    }
+
+    .tick-icon:after {
+        content: "";
+        position: absolute;
+
+        background-color: white;
+
+        height: 8px;
+        width: 4px;
+
+        transform: translate(9px, 13px) rotate(-45deg);
+    }
+
+    .cross-icon {
+        position: relative;
+
+        width: 30px;
+        height: 30px;
+
+        border-radius: 15px;
+
+        background-color: #ff4853;
+    }
+
+    .cross-icon:before {
+        content: "";
+        position: absolute;
+
+        background-color: white;
+
+        width: 4px;
+        height: 17px;
+
+        transform: translate(13px, 7px) rotate(45deg);
+    }
+
+    .cross-icon:after {
+        content: "";
+        position: absolute;
+
+        background-color: white;
+
+        width: 4px;
+        height: 17px;
+
+        transform: translate(13px, 7px) rotate(-45deg);
     }
 </style>
