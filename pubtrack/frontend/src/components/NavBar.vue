@@ -1,9 +1,7 @@
 <template>
     <nav>
         <div class="container">
-            <div class="logo">
-                PubTrack
-            </div>
+            <Logo/>
 
             <div class="nav-items">
                 <router-link class="item" :to="{name: 'home'}">
@@ -28,8 +26,13 @@
 </template>
 
 <script>
+    import Logo from "./Logo";
+
     export default {
-        name: "NavBar"
+        name: "NavBar",
+        components: {
+            Logo
+        }
     }
 </script>
 

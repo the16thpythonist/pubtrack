@@ -5,7 +5,7 @@
       <router-view></router-view>
     </div>
     <div class="footer">
-      Some content
+      &copy; Jonas Teufel
     </div>
   </div>
 </template>
