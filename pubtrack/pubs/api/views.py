@@ -207,3 +207,11 @@ class ConfigAPIView(APIView):
 
     def get(self, request):
         return Response(settings.PUBS_CONFIG)
+
+
+class ContactAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(settings.CONTACT)

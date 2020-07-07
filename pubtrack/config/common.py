@@ -231,3 +231,14 @@ class Common(Configuration):
     PUBS_CONFIG = {
         'accepted_pofs': ['54.02.02 (POF III, LK 01)']
     }
+
+    CONTACT = {
+        'full_name': 'Jonas Teufel',
+        'email': 'unpzb@student.kit.edu',
+        'phone': '1234-1234',
+        'location': '76131 Karlsruhe, Germany',
+        'website': {
+            'name': 'Pitronically',
+            'href': 'https://pitronically.mooo.com'
+        }
+    }

@@ -18,7 +18,8 @@ from pubtrack.pubs.api.views import (AuthorListCreateAPIView,
                                      AffiliationRUDAPIView,
                                      BlacklistingListCreateAPIView,
                                      BlacklistingRUDAPIView,
-                                     ConfigAPIView)
+                                     ConfigAPIView,
+                                     ContactAPIView)
 
 
 router = DefaultRouter()
@@ -124,5 +125,10 @@ urlpatterns = [
     # CONFIG
     path("config/",
          ConfigAPIView.as_view(),
-         name="config")
+         name="config"),
+
+    # CONTACT
+    path("contact/",
+         ContactAPIView.as_view(),
+         name='contact')
 ]
