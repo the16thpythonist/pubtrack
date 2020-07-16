@@ -243,6 +243,7 @@ class Authoring(models.Model):
     # Should this cascade?
     author = models.ForeignKey('Author', related_name='authorings', on_delete=models.SET_NULL, null=True)
     publication = models.ForeignKey('Publication', related_name='authorings', on_delete=models.SET_NULL, null=True)
+    index = models.TimeField(auto_now=False, auto_now_add=True)
 
 
 class Affiliation(models.Model):

@@ -23,6 +23,7 @@
 
 <style>
   html {
+    font-family: Helvetica, Arial, sans-serif;
     height: 100%;
   }
 
@@ -48,13 +49,14 @@
     flex-grow: 2;
   }
 
-  .footer {
-    min-height: 50px;
+  hr {
+    color: #e1e4e8;
+    background-color: #e1e4e8;
+    height: 1px;
+    border-style: none;
+  }
 
-    margin-top: 50px;
-    padding: 20px;
-
-    background-color: #232323;
-    color: white;
+  img[alt=full] {
+    width: 100%;
   }
 </style>

@@ -47,15 +47,6 @@
 
 <style scoped>
 
-    h3 {
-        margin-top: 0;
-        margin-bottom: 2px;
-    }
-
-    .left, .right {
-        min-width: 50%;
-    }
-
     .footer {
         display: flex;
         flex-direction: row;
@@ -65,9 +56,18 @@
         margin-top: 50px;
         padding: 20px;
 
-        background-color: #232323;
+        background-color: #24292e;
         color: white;
       }
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 2px;
+    }
+
+    .left, .right {
+        min-width: 50%;
+    }
 
     .contact {
         display: flex;

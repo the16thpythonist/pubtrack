@@ -1,4 +1,5 @@
 import os
+import pathlib
 from os.path import join
 from distutils.util import strtobool
 import dj_database_url
@@ -231,6 +232,8 @@ class Common(Configuration):
     PUBS_CONFIG = {
         'accepted_pofs': ['54.02.02 (POF III, LK 01)']
     }
+
+    BASE_PATH = pathlib.Path(__file__).parent.parent.absolute()
 
     CONTACT = {
         'full_name': 'Jonas Teufel',

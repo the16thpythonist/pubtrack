@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -68,7 +70,9 @@ class PublicationListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['scopus_id']
+    filterset_fields = ['scopus_id', 'doi']
+
+    ordering = ('title', )
 
 
 class PublicationRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -215,3 +219,15 @@ class ContactAPIView(APIView):
 
     def get(self, request):
         return Response(settings.CONTACT)
+
+
+class ReadmeAPIView(APIView):
+
+    def get(self, request):
+        readme_name = 'README.md'
+        readme_path = os.path.join(os.path.dirname(settings.BASE_PATH), readme_name)
+        with open(readme_path, mode='r') as file:
+            return Response({
+                'name': 'README.md',
+                'content': file.read()
+            })

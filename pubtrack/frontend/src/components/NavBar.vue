@@ -9,7 +9,7 @@
                 </router-link>
 
                 <router-link class="item" :to="{name: 'kitopen-coverage'}">
-                    KITOpen Coverage
+                    KITOpen Analytics
                 </router-link>
 
                 <router-link class="item" :to="{name: 'authors-list'}">
@@ -40,7 +40,7 @@
     nav {
         padding: 15px;
 
-        background-color: #232323;
+        background-color: #24292e;
         color: white;
 
         border-style: none;
@@ -78,8 +78,9 @@
     }
 
     .item, .item:visited {
-        margin-right: 20px;
+        margin-right: 25px;
 
+        font-weight: bold;
         text-decoration: none;
         color: white;
 

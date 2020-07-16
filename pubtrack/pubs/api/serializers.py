@@ -38,11 +38,15 @@ class AuthorBriefField(serializers.RelatedField):
     limited amount of information, especially NOT referencing publications recursively!
     """
 
+    def __init__(self, **kwargs):
+        super(AuthorBriefField, self).__init__(**kwargs)
+        print(self.queryset)
+
     def get_queryset(self):
         """
         Returns a queryset with all the "Author" objects.
         """
-        return Author.objects.all()
+        return super(AuthorBriefField, self).get_queryset().order_by('last_name')
 
     # value is the "AuthorProfile" object
     def to_representation(self, value) -> dict:
@@ -155,6 +159,8 @@ class PublicationSerializer(serializers.ModelSerializer):
     scopus_url = serializers.SerializerMethodField(read_only=True)
     kitopen_url = serializers.SerializerMethodField(read_only=True)
 
+    first_author = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Publication
         fields = [
@@ -166,18 +172,19 @@ class PublicationSerializer(serializers.ModelSerializer):
             'published',
             # Editable - optional
             'scopus_id',
-            'scopus_url',
             'on_kitopen',
             'kitopen_id',
-            'kitopen_url',
             'doi',
-            'doi_url',
             'pof_structure',
             # Related
             'authors',
             'status',
             # Computed
-            'meta_authors'
+            'meta_authors',
+            'kitopen_url',
+            'scopus_url',
+            'doi_url',
+            'first_author'
         ]
 
     def get_meta_authors(self, obj):
@@ -218,6 +225,11 @@ class PublicationSerializer(serializers.ModelSerializer):
 
     def get_kitopen_url(self, obj):
         return get_kitopen_url(obj.kitopen_id) if obj.kitopen_id else ''
+
+    def get_first_author(self, obj):
+        authors = obj.authors.all().order_by('authorings__index')
+        # authors = obj.authors.all()
+        return authors[0].last_name if len(authors) != 0 else ''
 
 
 class MetaAuthorBriefField(serializers.RelatedField):

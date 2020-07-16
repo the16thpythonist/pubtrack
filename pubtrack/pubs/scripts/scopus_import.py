@@ -19,7 +19,7 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 # --------------------------------
 
 PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
-PUBTRACK_TOKEN = "7313f9788f8d1543a78bdaacc7da8f610db0eb1c"
+PUBTRACK_TOKEN = "6762e080700f974fc560bcbe83ea50132f609d5c"
 
 SCOPUS_API_KEY = "013ff70c81049af047c0648e87278a9a"
 
@@ -34,6 +34,8 @@ AUTHORS = ['35313939900']
 # but in any way we will set the api key defined above into the config
 try:
     pybliometrics.scopus.utils.create_config()
+except FileExistsError:
+    pass
 finally:
     scopus_config['Authentication']['APIKey'] = SCOPUS_API_KEY
 
@@ -76,13 +78,19 @@ class ScopusPublicationAdapter:
         return results
 
     def _convert_date(self, date: str):
-        return "2020-06-14T14:07:38+0000"
+        date_time = datetime.datetime.strptime(date, '%Y-%m-%d')
+        return date_time.strftime('%Y-%m-%dT%H:%M:%S')
 
 
 # FETCHING THE ACTUAL PUBLICATIONS
 # --------------------------------
 
-meta_authors = pubtrack.meta_authors.get()
+try:
+    meta_authors = pubtrack.meta_author.get()
+except:
+    pass
+
+
 RELEVANT_AUTHOR_IDS = AUTHORS.copy()
 DATE_LIMIT = datetime.datetime(year=SINCE, month=1, day=1)
 
@@ -94,7 +102,8 @@ for author_id in AUTHORS:
     for result in search.results:
 
         # We'll only take publications, which have a DOI
-        if result.doi is None: continue
+        if result.doi is None:
+            continue
 
         # Requesting the detailed information from the scopus database for the current publication from the search
         # results
@@ -105,9 +114,10 @@ for author_id in AUTHORS:
             continue
 
         # If the publication is older than the date limit, it will be discarded
-        print(abstract_retrieval.coverDate)
-        # if abstract_retrieval.coverDate <= DATE_LIMIT:
-        #     continue
+        publication_date = datetime.datetime.strptime(abstract_retrieval.coverDate, '%Y-%m-%d')
+        if publication_date <= DATE_LIMIT:
+            print(f' [!] OLD Publication {result.doi} is too old with date {abstract_retrieval.coverDate}')
+            continue
 
         adapter = ScopusPublicationAdapter(abstract_retrieval)
         publication = adapter.get_publication()
@@ -116,6 +126,7 @@ for author_id in AUTHORS:
         # We cannot just use the first few authors however, we need to make sure that the author, from which we have
         # this publication in the first place is in there. The rest just gets filled up...
         authors = []
+        print(publication['authors'])
         for author in publication['authors']:
             if author['scopus_id'] in RELEVANT_AUTHOR_IDS or len(authors) < AUTHOR_LIMIT:
                 authors.append(author)

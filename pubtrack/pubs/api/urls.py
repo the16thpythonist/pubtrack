@@ -19,7 +19,8 @@ from pubtrack.pubs.api.views import (AuthorListCreateAPIView,
                                      BlacklistingListCreateAPIView,
                                      BlacklistingRUDAPIView,
                                      ConfigAPIView,
-                                     ContactAPIView)
+                                     ContactAPIView,
+                                     ReadmeAPIView)
 
 
 router = DefaultRouter()
@@ -122,6 +123,8 @@ urlpatterns = [
          BlacklistingRUDAPIView.as_view(),
          name="blacklistings-detail"),
 
+    # NON MODEL BASED ENDPOINTS
+    # -------------------------
     # CONFIG
     path("config/",
          ConfigAPIView.as_view(),
@@ -130,5 +133,10 @@ urlpatterns = [
     # CONTACT
     path("contact/",
          ContactAPIView.as_view(),
-         name='contact')
+         name='contact'),
+
+    # README
+    path("readme/",
+         ReadmeAPIView.as_view(),
+         name='readme')
 ]

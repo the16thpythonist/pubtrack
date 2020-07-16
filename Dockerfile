@@ -24,6 +24,7 @@ RUN npm -v
 
 # Adds our application code to the image
 COPY . code
+COPY ./README.md code/pubtrack/README.md
 WORKDIR code
 
 EXPOSE 8000

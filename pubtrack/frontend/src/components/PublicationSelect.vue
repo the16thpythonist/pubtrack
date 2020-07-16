@@ -25,7 +25,7 @@
                         <router-link
                                 class="publication-name"
                                 :to="{name: 'publication-detail', params: {'uuid': publication['uuid']}}">
-                            <em>{{ getPublicationFirstAuthor(publication) }} et al. </em> {{ publication['title'] }}
+                            <em>{{ publication['first_author'] }} et al. </em> {{ publication['title'] }}
                         </router-link>
                     </div>
                     <div class="column2 publication-authors">
@@ -78,6 +78,9 @@
                                 <a :href="publication['doi_url']">
                                     {{ publication['doi'] }}
                                 </a>
+                            </span>
+                            <span class="date">
+                                Published: {{ publication['published'].slice(0, 10) }}
                             </span>
                             <h4>Publication Status:</h4>
                             <PublicationStatusEditor v-model="publications[uuid]">
@@ -133,9 +136,6 @@
                 this.allSelected = !this.allSelected;
                 this.emitInput();
             },
-            getPublicationFirstAuthor(publication) {
-                return publication['authors'][0] ? publication['authors'][0]['last_name'] : 'None';
-            },
             onInput(event, publication) {
                 this.emitInput();
             },
@@ -146,8 +146,10 @@
             selectPublication(select, uuid, publication) {
                 if (select) {
                     this.$set(this.selected, uuid, this.publications[uuid]);
+                    this.publications[uuid]['selected'] = true;
                 } else {
                     this.$delete(this.selected, uuid);
+                    this.publications[uuid]['selected'] = false;
                 }
             },
             emitInput() {
@@ -322,6 +324,7 @@
         height: 22px;
         padding-right: 5px;
         padding-left: 5px;
+        margin-bottom: 5px;
 
         text-align: center;
         text-decoration: none;

@@ -6,6 +6,7 @@ The script does not requires any input. The parameters of the script can be modi
 relevant constants in code here.
 """
 from pykitopen import KitOpen
+from pykitopen.search import YearBatching
 from pykitopen.publication import Publication
 from pykitopen.config import DEFAULT as KITOPEN_DEFAULT
 
@@ -16,7 +17,7 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 # --------------------------------
 
 PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
-PUBTRACK_TOKEN = "7313f9788f8d1543a78bdaacc7da8f610db0eb1c"
+PUBTRACK_TOKEN = "1d2db61642a87b80fe6547da0a397cbcc86ff252"
 
 START_YEAR = '2018'
 
@@ -25,6 +26,7 @@ START_YEAR = '2018'
 
 kitopen_config = KITOPEN_DEFAULT.copy()
 kitopen_config['default_view'] = Publication.VIEWS.FULL
+kitopen_config['batching_strategy'] = YearBatching
 
 kitopen = KitOpen(kitopen_config)
 
@@ -57,17 +59,17 @@ def name_search_string(first_name: str, last_name: str):
 
 print('\n--- FETCHING META AUTHORS FROM PUBTRACK ---')
 AUTHOR_NAMES = []
-meta_authors = pubtrack.meta_authors.get()
+meta_authors = pubtrack.meta_author.get()['results']
 for meta_author in meta_authors:
     for author in meta_author['authors']:
         name = name_search_string(author['first_name'], author['last_name'])
-        print(f' * {name}')
+        print(f' | {name}')
         AUTHOR_NAMES.append(name)
 print(f'--> Total of {len(AUTHOR_NAMES)} to be queried from KITOpen')
 
 
 results = kitopen.search({
-    'author':       ' or '.format(AUTHOR_NAMES),
+    'author':       ' or '.join(AUTHOR_NAMES),
     'start':        START_YEAR,
     'end':          ''
 })
@@ -77,12 +79,15 @@ for publication in results:
 
     if publication.data['doi']:
         try:
-            pub = pubtrack.publication.get(doi=publication.data['doi'])
+            pub = pubtrack.publication.get_by(doi=publication.data['doi'])
+            print(pub['uuid'])
             patch = {
                 'on_kitopen':           True,
-                'kitopen_id':           publication.data['id'],
                 'pof_structure':        publication.data['pof_structure']
             }
+            if not pub['kitopen_id']:
+                patch['kitopen_id'] = publication.data['id']
+
             pubtrack.publication.patch(pub['uuid'], patch=patch)
             print(f' * Inserted publication {publication.data["doi"]} imported to pubtrack')
         except:

@@ -87,6 +87,8 @@ class PublicationStatusUpdater:
                 'description':  'Publication not on KITOpen'
             })
 
+        print(self.publication.pof_structure)
+        print(settings.PUBS_CONFIG)
         if self.publication.pof_structure not in settings.PUBS_CONFIG['accepted_pofs']:
             kwargs.update({
                 'type':         PublicationStatus.TYPE_WARNING,
@@ -101,7 +103,7 @@ class PublicationStatusUpdater:
             solution = solution_template.format(
                 str(datetime.datetime.now().date()),
                 self.status.type,
-                self.status.descriptio,
+                self.status.description,
                 PublicationStatus.TYPE_NAMES[kwargs['type']].upper()
             )
             kwargs['solution'] = solution

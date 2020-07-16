@@ -138,6 +138,17 @@
                             }
                             return result;
                         }
+                    },
+                    selected: {
+                        name:       'Only Selected',
+                        active:     false,
+                        func:       function(publications) {
+                            let result = new Map();
+                            for (let [uuid, publication] of publications) {
+                                if (publication['selected']) {result.set(uuid, publication); }
+                            }
+                            return result;
+                        }
                     }
                 },
                 pofFilter: {
