@@ -15,6 +15,7 @@ track of changes and potential issues in publication data.
    :maxdepth: 2
    :caption: Contents:
 
+   readme
    general
    development
 

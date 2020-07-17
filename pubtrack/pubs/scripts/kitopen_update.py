@@ -5,6 +5,9 @@ the KITOpen ID or the funding information in form of the POF structure.
 The script does not requires any input. The parameters of the script can be modified by changing the values of the
 relevant constants in code here.
 """
+import os
+import logging
+
 from pykitopen import KitOpen
 from pykitopen.search import YearBatching
 from pykitopen.publication import Publication
@@ -16,10 +19,31 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 # DEFINING THE IMPORTANT CONSTANTS
 # --------------------------------
 
+LOG_PATH = '/tmp/pubtrack_kitopen_update.log'
+
 PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
-PUBTRACK_TOKEN = "1d2db61642a87b80fe6547da0a397cbcc86ff252"
+PUBTRACK_TOKEN = "6762e080700f974fc560bcbe83ea50132f609d5c"
 
 START_YEAR = '2018'
+
+# SETTING UP LOGGING
+# ------------------
+
+logger = logging.getLogger('KITOpen Update')
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+file_handler = logging.FileHandler(filename=LOG_PATH, mode='w')
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
 
 # SETTING UP KITOPEN WRAPPER
 # --------------------------
@@ -57,15 +81,16 @@ def name_search_string(first_name: str, last_name: str):
 # ----------------
 
 
-print('\n--- FETCHING META AUTHORS FROM PUBTRACK ---')
+logger.info('FETCHING META AUTHORS FROM PUBTRACK')
 AUTHOR_NAMES = []
 meta_authors = pubtrack.meta_author.get()['results']
 for meta_author in meta_authors:
     for author in meta_author['authors']:
         name = name_search_string(author['first_name'], author['last_name'])
-        print(f' | {name}')
         AUTHOR_NAMES.append(name)
-print(f'--> Total of {len(AUTHOR_NAMES)} to be queried from KITOpen')
+        logger.info(' * Adding author name {}'.format(name))
+
+logger.info('==> Processing total of {} authors'.format(len(AUTHOR_NAMES)))
 
 
 results = kitopen.search({
@@ -74,13 +99,14 @@ results = kitopen.search({
     'end':          ''
 })
 
-print('\n--- FETCHING PUBLICATIONS FROM KITOPEN ---')
+logger.info('FETCHING PUBLICATIONS FROM KITOPEN')
+count = 0
+count_success = 0
 for publication in results:
 
     if publication.data['doi']:
         try:
             pub = pubtrack.publication.get_by(doi=publication.data['doi'])
-            print(pub['uuid'])
             patch = {
                 'on_kitopen':           True,
                 'pof_structure':        publication.data['pof_structure']
@@ -89,6 +115,11 @@ for publication in results:
                 patch['kitopen_id'] = publication.data['id']
 
             pubtrack.publication.patch(pub['uuid'], patch=patch)
-            print(f' * Inserted publication {publication.data["doi"]} imported to pubtrack')
-        except:
-            print(f' [!] Error importing publication {publication.data["doi"]}')
+            logger.info(' * UPDATED publication {}'.format(publication.data['doi']))
+            count_success += 1
+        except Exception as e:
+            logger.error(' ! Error updating publication {}: "{}"'.format(publication.data['doi'], str(e)))
+        finally:
+            count += 1
+
+logger.info(' ==> Updated {}/{} publications with KITOpen data'.format(count_success, count))

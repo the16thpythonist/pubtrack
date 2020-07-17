@@ -5,7 +5,10 @@ author ids from the observed authors.
 The script does not requires any input. The parameters of the script can be modified by changing the values of the
 relevant constants in code here.
 """
+import os
 import datetime
+import logging
+import pathlib
 
 import pybliometrics
 from pybliometrics.scopus import AbstractRetrieval, ScopusSearch
@@ -16,7 +19,11 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 
 
 # DEFINING THE IMPORTANT CONSTANTS
-# --------------------------------
+# =============================================================================================
+# ---------------------------------------------------------------------------------------------
+
+PATH = pathlib.Path(__file__).parent.absolute()
+LOG_PATH = '/tmp/pubtrack_scopus_import.log'
 
 PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
 PUBTRACK_TOKEN = "6762e080700f974fc560bcbe83ea50132f609d5c"
@@ -25,7 +32,28 @@ SCOPUS_API_KEY = "013ff70c81049af047c0648e87278a9a"
 
 SINCE = 2019
 AUTHOR_LIMIT = 5
-AUTHORS = ['35313939900']
+
+# ---------------------------------------------------------------------------------------------
+# =============================================================================================
+
+# SETTING UP LOGGING
+# ------------------
+
+logger = logging.getLogger('Scopus Import')
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+file_handler = logging.FileHandler(filename=LOG_PATH, mode='w')
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
 
 # SETTING UP SCOPUS WRAPPER
 # -------------------------
@@ -85,19 +113,24 @@ class ScopusPublicationAdapter:
 # FETCHING THE ACTUAL PUBLICATIONS
 # --------------------------------
 
-try:
-    meta_authors = pubtrack.meta_author.get()
-except:
-    pass
+logger.info('FETCHING META AUTHORS FROM PUBTRACK')
+AUTHORS = {}
+meta_authors = pubtrack.meta_author.get()['results']
+for meta_author in meta_authors:
+    for author in meta_author['authors']:
+        if author['scopus_id']:
+            full_name = '{} {}'.format(author['first_name'], author['last_name'])
+            AUTHORS[author['scopus_id']] = full_name
+            logger.info(' * Adding author {}({}) to be processed'.format(full_name, author['scopus_id']))
+logger.info('==> Processing total of {} authors'.format(len(AUTHORS)))
 
 
-RELEVANT_AUTHOR_IDS = AUTHORS.copy()
 DATE_LIMIT = datetime.datetime(year=SINCE, month=1, day=1)
 
-for author_id in AUTHORS:
+for author_id, full_name in AUTHORS.items():
     publication_count = 0
     search = ScopusSearch(f'AU-ID ( {author_id} )')
-    print(f'\n--- STARTING SEARCH FOR AUTHOR {author_id} ---')
+    logger.info('STARTING SEARCH FOR AUTHOR {}({})'.format(full_name, author_id))
 
     for result in search.results:
 
@@ -109,14 +142,14 @@ for author_id in AUTHORS:
         # results
         try:
             abstract_retrieval = AbstractRetrieval(result.doi)
-        except:
-            print(f' [!] ERROR Could not get details for publication {result.doi}')
+        except Exception as e:
+            logger.error(' ! Could not retrieve scopus abstract for DOI "{}". ERROR: {}'.format(result.doi, str(e)))
             continue
 
         # If the publication is older than the date limit, it will be discarded
         publication_date = datetime.datetime.strptime(abstract_retrieval.coverDate, '%Y-%m-%d')
         if publication_date <= DATE_LIMIT:
-            print(f' [!] OLD Publication {result.doi} is too old with date {abstract_retrieval.coverDate}')
+            logger.info(' # TOO OLD publication {} with publishing date {}'.format(result.doi, abstract_retrieval.coverDate))
             continue
 
         adapter = ScopusPublicationAdapter(abstract_retrieval)
@@ -128,7 +161,7 @@ for author_id in AUTHORS:
         authors = []
         print(publication['authors'])
         for author in publication['authors']:
-            if author['scopus_id'] in RELEVANT_AUTHOR_IDS or len(authors) < AUTHOR_LIMIT:
+            if author['scopus_id'] in AUTHORS.keys() or len(authors) < AUTHOR_LIMIT:
                 authors.append(author)
 
         publication['authors'] = authors
@@ -137,10 +170,10 @@ for author_id in AUTHORS:
         try:
             pubtrack.import_publication(publication)
             publication_count += 1
-            print(f' * Publication "{publication["doi"]}" success!')
+            logger.info(' * ADDED publication {}:{}'.format(publication['doi'], publication['title']))
         except Exception as e:
-            print(f' [!] ERROR while posting to pubtrack "{str(e)}"')
+            logger.warning(' ! Error while posting to pubtrack: {}'.format(str(e)))
             continue
 
-    print(f'--> Total of {publication_count} Publications imported for author {author_id}')
+    logger.info(' --> Total of {} publications imported from author {}'.format(publication_count, author_id))
 
