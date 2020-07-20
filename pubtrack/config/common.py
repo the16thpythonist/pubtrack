@@ -9,6 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Common(Configuration):
 
+    DEBUG = False
+
     INSTALLED_APPS = (
         'django.contrib.admin',
         'django.contrib.auth',
@@ -38,21 +40,6 @@ class Common(Configuration):
 
         # development 27.05.2020
         'corsheaders'
-    )
-
-    # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
-    MIDDLEWARE = (
-        # development only
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'corsheaders.middleware.CorsMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'corsheaders.middleware.CorsPostCsrfMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     )
 
     ALLOWED_HOSTS = ["*"]
@@ -89,7 +76,9 @@ class Common(Configuration):
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
     STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), 'static'))
-    STATICFILES_DIRS = []
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'frontend/dist')
+    ]
     STATIC_URL = '/static/'
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -226,8 +215,6 @@ class Common(Configuration):
         }
     }
 
-    CORS_ORIGIN_ALLOW_ALL = True
-    CORS_REPLACE_HTTPS_REFERER = True
     # CONFIG FOR THE PUBS APP
     PUBS_CONFIG = {
         'accepted_pofs': ['54.02.02 (POF III, LK 01)']

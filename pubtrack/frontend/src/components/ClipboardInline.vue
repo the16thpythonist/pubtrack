@@ -12,6 +12,13 @@
     export default {
         name: "ClipboardInline",
         components: {ClipboardIcon},
+        props: {
+            strikeThrough: {
+                type:       Boolean,
+                required:   false,
+                default:    true
+            }
+        },
         data() {
             return {
                 copied:     false
@@ -31,7 +38,7 @@
             contentClasses() {
                 return {
                     'copy-content':     true,
-                    'copied':           this.copied
+                    'copied':           this.copied && this.strikeThrough
                 }
             }
         }
@@ -43,6 +50,8 @@
     .container {
         display: flex;
         flex-direction: row;
+
+        display: inline-flex;
     }
 
     .copy-content {

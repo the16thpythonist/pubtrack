@@ -5,6 +5,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import NotFound from "../views/NotFound";
 import KITOpenCoverage from "../views/KITOpenCoverage";
+import KitOpenMetrics from "../views/KitOpenMetrics";
 import AuthorList from "../views/AuthorList";
 import AuthorDetail from "../views/AuthorDetail";
 import PublicationList from "../views/PublicationList";
@@ -33,6 +34,11 @@ const routes = [
     path: "/analytics/publications/kitopen-coverage",
     name: "kitopen-coverage",
     component: KITOpenCoverage
+  },
+  {
+    path: "/analytics/publications/kitopen-metrics",
+    name: "kitopen-metrics",
+    component: KitOpenMetrics
   },
   {
     path: "/authors",

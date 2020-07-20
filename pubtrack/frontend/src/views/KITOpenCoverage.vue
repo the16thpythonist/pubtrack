@@ -2,6 +2,26 @@
     <div class="kitopen-coverage-analytics">
         <h1 class="title">KITOpen Analytics</h1>
 
+        <!-- Explanation -->
+        <p>
+            This page can be used to monitor the status of all the publications within the pubtrack database.
+            On default, the list view below contains every publication currently known to this pubtrack instance. Each
+            row represents one publication. To further narrow down the selection of displayed publications, the
+            "Filters" section below can be used. Simply check the boxes to apply the corresponding filters.
+            Additionally, the search field can be used to further filter by the inclusion of an arbitrary sub string
+            within the title or the POF structure of a publication.
+        </p>
+
+        <p>
+            The list view of the publications contains five columns, which represent the following information (in that
+            order): The first author and title of the publication, a list of all the observed authors, which are also
+            authors of that specific publication, a boolean indication of whether or not the publication is on
+            KITOpen or not, the POF structure of the publication (if one exists) and finally a checkbox to select the
+            publication to apply group actions. <br>
+            Additionally the arrow in the lower left-hand corner of a row can be used to open a dropdown view for each
+            publication which contains additional information about it, as well as the <em>Status Editor</em>
+        </p>
+
         <!-- Add the filters -->
         <MapFilters
                 :base="publications"
@@ -242,7 +262,11 @@
         margin-bottom: 25px;
     }
 
+    p {
+        margin-top: 5px;
+    }
+
     h1.title {
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 </style>

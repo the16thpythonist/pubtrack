@@ -25,17 +25,11 @@
                         <router-link
                                 class="publication-name"
                                 :to="{name: 'publication-detail', params: {'uuid': publication['uuid']}}">
-                            <em>{{ publication['first_author'] }} et al. </em> {{ publication['title'] }}
+                            <em>{{ publication['first_author'] }} et al. </em> {{ publication['title'] }}. {{ publication['published'].slice(0,4) }}
                         </router-link>
                     </div>
                     <div class="column2 publication-authors">
-                        <router-link
-                                class="publication-author"
-                                v-for="metaAuthor in publication['meta_authors']"
-                                :key="metaAuthor['slug']"
-                                :to="{name: 'author-detail', params: {slug: metaAuthor['slug']}}">
-                            {{ metaAuthor['full_name'] }}
-                        </router-link>
+                        <AuthorTagList :authors="publication['meta_authors']"/>
                     </div>
                     <BooleanIcon
                             class="column3"
@@ -101,6 +95,7 @@
     import DropDownExtendBox from "./DropDownExtendBox";
     import PublicationStatusEditor from "./PublicationStatusEditor";
     import Checkbox from "./Checkbox";
+    import AuthorTagList from "./AuthorTagList";
 
     export default {
         name: "PublicationSelect",
@@ -108,7 +103,8 @@
             PublicationStatusEditor,
             BooleanIcon,
             DropDownExtendBox,
-            Checkbox
+            Checkbox,
+            AuthorTagList
         },
         props: {
             value: {
@@ -315,41 +311,6 @@
 
     .select {
         margin-left: 13px;
-    }
-
-    .publication-author {
-        display: inline-flex;
-        position: relative;
-
-        height: 22px;
-        padding-right: 5px;
-        padding-left: 5px;
-        margin-bottom: 5px;
-
-        text-align: center;
-        text-decoration: none;
-        vertical-align: middle;
-        line-height: 22px;
-        font-size: 0.9em;
-        font-family: sans-serif;
-
-        color: #373737;
-        background-color: rgba(0,0,0,0.25);
-
-        border-radius: 0px 2px 2px 0px;
-    }
-
-    .publication-author:before {
-        content: "";
-        position: absolute;
-
-        width: 0;
-        height: 0;
-        border-top: 11px solid transparent;
-        border-right: 8px solid rgba(0,0,0,0.25);
-        border-bottom: 11px solid transparent;
-
-        transform: translate(-13px, 0px);
     }
 
 </style>

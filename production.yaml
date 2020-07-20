@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+
+  postgres:
+    image: postgres:11.6
+
+  web:
+    restart: always
+    environment:
+      - DJANGO_SECRET_KEY=local
+    image: web
+    build: ./
+    command: >
+      bash -c "python wait_for_postgres.py &&
+               ./manage.py collectstatic --noinput &&
+               whoami &&
+               ls -la /code/static/ &&
+               ./manage.py migrate &&
+               ./manage.py runserver --configuration=Production 0.0.0.0:8000"
+    volumes:
+      - ./:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/code
+    links:
+      - web:web

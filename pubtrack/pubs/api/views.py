@@ -223,6 +223,8 @@ class ContactAPIView(APIView):
 
 class ReadmeAPIView(APIView):
 
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         readme_name = 'README.md'
         readme_path = os.path.join(os.path.dirname(settings.BASE_PATH), readme_name)

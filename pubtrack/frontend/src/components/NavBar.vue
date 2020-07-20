@@ -12,13 +12,17 @@
                     KITOpen Analytics
                 </router-link>
 
-                <router-link class="item" :to="{name: 'authors-list'}">
-                    Authors
+                <router-link class="item" :to="{name: 'kitopen-metrics'}">
+                    KITOpen Metrics
                 </router-link>
 
                 <router-link class="item" :to="{name: 'publications-list'}">
                     Publications
                 </router-link>
+
+                <a class="item" href="/admin/">
+                    Login
+                </a>
             </div>
 
         </div>

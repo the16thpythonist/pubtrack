@@ -4,13 +4,14 @@ import axios from 'axios'
 function Api() {
 
     // I ll have to pass this in via the template
-    const BASE_URL = "http://0.0.0.0:8000/api/v1";
+    const BASE_URL = process.env.VUE_APP_API_URL;
 
     // PRIVATE METHODS
     this.axios = axios.create({
         baseURL: BASE_URL,
         timeout: 1000,
         responseType: 'json',
+        withCredentials: true,
         headers: {
             'content-type':         'application/json',
             'Accept':               'application/json',

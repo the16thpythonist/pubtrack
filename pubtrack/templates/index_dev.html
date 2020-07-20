@@ -1,17 +1,15 @@
 {% load render_bundle from webpack_loader %}
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>PubTrack</title>
     <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAACXBIWXMAAAnXAAAJ1wGxbhe3AAAAB3RJTUUH5AcUDB0M05o2vwAAAfJQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgIAAAACgoKCwsLAQEBAwMDBwcHDg4OEBAQEhISFBQUFRUVFhYWFxcXGRkZGhoaHBwcHR0dISEhIyMjJSUlJiYmJycnKCgoLCwsLS0tMDAwMjIyMzMzNTU1Nzc3OTk5Ozs7Pz8/QkJCQ0NDSEhISkpKS0tLTU1NU1NTV1dXW1tbXV1dXl5eX19fZGRkZWVlZ2dnbW1tb29vcHBwcnJydnZ2eXl5enp6e3t7gICAgYGBgoKChISEhYWFh4eHioqKjIyMjY2NkJCQkpKSlJSUlZWVlpaWl5eXmJiYmZmZnJycoaGhoqKio6OjpKSkpaWlqqqqrKysra2tr6+vsbGxsrKyuLi4vLy8vb29vr6+v7+/wMDAwcHBwsLCw8PDxMTExcXFxsbGx8fHyMjIycnJysrKy8vLzMzMzc3Nz8/P0dHR0tLS09PT1NTU1tbW19fX2NjY2dnZ2tra3d3d3t7e4ODg4eHh4uLi5OTk5eXl5+fn6Ojo6enp6urq6+vr7Ozs7e3t7u7u7+/v8PDw8fHx8/Pz9PT09fX19vb29/f3+vr6+/v7/Pz8/f39/v7+////S1lFAAAAABp0Uk5TAAEDEhMUMjtTWl5laW2ToaO7ysz4+/v8/PyDARMeAAAAAWJLR0SlLrlKLwAAAiRJREFUWMPt12dTU0EYBeAIYsNeUdEoShMLgliiWBALalABwRorRSxYUCIIRAUSEFCxgpJy73v+px907uze2WwZiOM4Ph/PTM5sTjZ3Eo9n2szKnK9rXrrg9WkLV63WlLV8jqhgcUHjIz3nVs4VFhSNQE9rCgvs0eQ+kLqAmndsTcoX1jhB+/HDSZ0Z09kgnlzij4z4v2AaCqyhQZVhkt3EpqICldIu2QmCVZUKx6pHpBtYCRVLugFFOTEAgkyywYNDB1gV3QDuHuSyygFZQevuEta+pwDd2sVl+3ulb+Ez5wsBsF2Z/CIRD4AgkxT0X6xjXR4F0NPAZYGvsg0aN3hZufcB+yoXeQs7ZCeIvuxk9SQAjHdxWa+d0i/TxJM2lQ5LtsGd9etU8p/LTjB044rK7e8m90AkxY80wUU0uomhWj/j7EMCEDzPZv6GMdmnUL9mYw7jggVQYBMb5WwLygpqvDdDjG8A8OMVG4X6SF7QPaURhQVk8wwKJi0AaPefYtW91y4Yr7pGAAVyN7O2v9AuGN5yNA5gsu8NK0wGBUfiUxrxdwHxC5oXPD59wlH92ryArufnOQrvKQuexRzhXyeIDvQ7IpaioHbt3nKHL7vCeMSWsmLGzku26fOAPn1kJf6BX2n0Nuw2SCYFkT15bsWdJgUT9Sfdat4ZbWBbbnYqR4zE9DSJCxZl+8r1lK0QFcxYsHSZriWzRf+d02Zm6Er3/E1+AkpXxSZkYIZLAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-
-    <link rel="stylesheet" href="{% static 'bundle.css' %}">
 </head>
 <body>
     {% csrf_token %}
     <div id="app"></div>
-    <script src="{% static 'bundle.js' %}"></script>
+
+    {% render_bundle 'app' %}
 </body>
 </html>
