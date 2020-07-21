@@ -16,7 +16,13 @@
                 </div>
                 <div class="contact-element">
                     <div class="label">Email:</div>
-                    <a class="value" :href="`mailto:${contact['email']}`" type="">{{ contact['email'] }}</a>
+                    <a
+                            class="value"
+                            style="color: white;"
+                            :href="`mailto:${contact['email']}`"
+                            type="">
+                        {{ contact['email'] }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -51,8 +57,6 @@
         display: flex;
         flex-direction: row;
 
-        min-height: 50px;
-
         margin-top: 50px;
         padding: 20px;
 
@@ -67,6 +71,7 @@
 
     .left, .right {
         min-width: 50%;
+        clear: both;
     }
 
     .contact {

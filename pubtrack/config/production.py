@@ -25,6 +25,8 @@ class Production(Common):
 
     )
 
+    Common.REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = ('rest_framework.renderers.JSONRenderer', )
+
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
     # http://django-storages.readthedocs.org/en/latest/index.html

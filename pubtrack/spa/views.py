@@ -5,6 +5,9 @@ from django.conf import settings
 
 class IndexTemplateView(LoginRequiredMixin, TemplateView):
 
+    login_url = '/admin/'
+    redirect_field_name = 'admin'
+
     def get_template_names(self):
         if settings.DEBUG:
             template_name = "index_dev.html"
