@@ -22,6 +22,9 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
 RUN node -v
 RUN npm -v
 
+# Install Vue CLI
+RUN npm install -g @vue/cli
+
 # Adds our application code to the image
 COPY . code
 COPY ./README.md code/pubtrack/README.md

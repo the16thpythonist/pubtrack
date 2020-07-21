@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-export API_URL=http://google.de
+sudo docker-compose -f production.yaml build
+
 cd pubtrack/frontend
 sudo npm run build
