@@ -21,8 +21,8 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 
 LOG_PATH = '/tmp/pubtrack_kitopen_update.log'
 
-PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
-PUBTRACK_TOKEN = "6762e080700f974fc560bcbe83ea50132f609d5c"
+PUBTRACK_URL = "http://pubtrack.ignorelist.com/api/v1"
+PUBTRACK_TOKEN = "6563a9f1b824b67d1225a5e5699890f85d729772"
 
 START_YEAR = '2018'
 

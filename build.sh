@@ -7,4 +7,5 @@ sudo npm install
 sudo npm run build
 
 cd ../..
+sudo docker-compose -f production.yaml run web python manage.py makemigrations pubs
 sudo docker-compose -f production.yaml run web python manage.py createsuperuser

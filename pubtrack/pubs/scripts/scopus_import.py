@@ -25,8 +25,8 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 PATH = pathlib.Path(__file__).parent.absolute()
 LOG_PATH = '/tmp/pubtrack_scopus_import.log'
 
-PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
-PUBTRACK_TOKEN = "6762e080700f974fc560bcbe83ea50132f609d5c"
+PUBTRACK_URL = "http://pubtrack.ignorelist.com/api/v1"
+PUBTRACK_TOKEN = "6563a9f1b824b67d1225a5e5699890f85d729772"
 
 SCOPUS_API_KEY = "013ff70c81049af047c0648e87278a9a"
 
@@ -159,7 +159,6 @@ for author_id, full_name in AUTHORS.items():
         # We cannot just use the first few authors however, we need to make sure that the author, from which we have
         # this publication in the first place is in there. The rest just gets filled up...
         authors = []
-        print(publication['authors'])
         for author in publication['authors']:
             if author['scopus_id'] in AUTHORS.keys() or len(authors) < AUTHOR_LIMIT:
                 authors.append(author)
