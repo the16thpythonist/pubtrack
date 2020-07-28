@@ -133,13 +133,26 @@
             }
         },
         methods: {
+            comparePublications(firstPublication, secondPublication) {
+                let comparisonKey = 'first_author';
+                if (firstPublication[comparisonKey] > secondPublication[comparisonKey]) {
+                    return 1;
+                } else if (firstPublication[comparisonKey] < secondPublication[comparisonKey]) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            },
             getPublications() {
                 let self = this;
                 return this.api.getPublicationList()
                     .then(function (publications) {
+                        publications.sort(self.comparePublications);
+
                         let result = new Map();
                         let years = new Set();
                         let authors = new Set();
+
                         for (let publication of publications) {
                             let uuid = publication['uuid'];
                             result.set(uuid, publication);
@@ -169,11 +182,14 @@
                         for (let metaAuthor of publication['meta_authors']) {
                             let fullName = metaAuthor['full_name'];
                             if (this.selectedAuthors.includes(fullName)) {
-                                result.set(uuid, publication);
-
-                                this.increaseMetrics(this.metricsYear, year);
                                 this.increaseMetrics(this.metricsAuthor, fullName);
-                                this.total += 1;
+
+                                if (!result.get(uuid)) {
+                                    this.increaseMetrics(this.metricsYear, year);
+                                    this.total += 1;
+                                }
+
+                                result.set(uuid, publication);
                             }
                         }
                     }

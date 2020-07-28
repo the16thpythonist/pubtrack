@@ -231,10 +231,21 @@
                         console.log(error);
                     });
             },
+            comparePublications(firstPublication, secondPublication) {
+                let comparisonKey = 'first_author';
+                if (firstPublication[comparisonKey] > secondPublication[comparisonKey]) {
+                    return 1;
+                } else if (firstPublication[comparisonKey] < secondPublication[comparisonKey]) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            },
             getPublications: function () {
                 let self = this;
                 this.api.getPublicationList()
                     .then(function (publications) {
+                        publications.sort(self.comparePublications)
                         let result = new Map();
                         // 27.06.2020 Changed it so that it now assigns the porperties of an object, because
                         // I essentially want to store them in an assoc array (=object)
