@@ -5,6 +5,7 @@
     style="display:block;margin-left:auto;margin-right:auto;width:80%;margin-top:20px;margin-bottom:30px;">
 
 [![Built with](https://img.shields.io/badge/Built_with-Cookiecutter_Django_Rest-F7B633.svg)](https://github.com/agconti/cookiecutter-django-rest)
+[![Version](https://img.shields.io/github/v/release/the16thpythonist/pubtrack)](https://github.com/the16thpythonist/pubtrack)
 
 ## Table of Contents
 
