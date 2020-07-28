@@ -15,6 +15,8 @@ Bug fixes:
 
 Bug fixes:
 - Changed the CSS in MultiSelect.vue so that the labels are now vertically centered
+- Increased the timeout for the REST API GET call for the frontend, because big sets of publications took too long to 
+be loaded (1s to 10s)
 
 Features added:
 - Added a third selection box to the metrics page, which can be used to select the publications by their POF structure

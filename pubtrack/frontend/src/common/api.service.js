@@ -9,7 +9,7 @@ function Api() {
     // PRIVATE METHODS
     this.axios = axios.create({
         baseURL: BASE_URL,
-        timeout: 1000,
+        timeout: 10000,
         responseType: 'json',
         withCredentials: true,
         headers: {
