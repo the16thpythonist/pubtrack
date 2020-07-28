@@ -89,6 +89,8 @@
 <style scoped>
     .row {
         display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: row;
         margin-bottom: 3px;
     }
@@ -100,10 +102,13 @@
 
     .column1 {
         min-width: 40px;
+        max-width: 40px;
     }
 
     .column2 {
         min-width: 90%;
+        max-width: 90%;
+        padding-top: 5px;
     }
 
     .select-all {

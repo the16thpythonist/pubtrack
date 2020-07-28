@@ -22,6 +22,12 @@
                     :choices="authors"
                     v-model="selectedAuthors"
                     @input="onInput"/>
+            <MultiSelect
+                    class="select pof"
+                    header="POF Structure"
+                    :choices="pofs"
+                    v-model="selectedPofs"
+                    @input="onInput"/>
         </div>
 
         <h2>Metrics</h2>
@@ -37,6 +43,10 @@
             <div class="metric" v-for="(amount, author) in metricsAuthor">
                 {{ author }}: {{ amount }}
             </div>
+            <h4>Publications by POF:</h4>
+            <div class="metric" v-for="(amount, pof) in metricsPof">
+                {{ pof }}: {{ amount }}
+            </div>
         </div>
 
         <h2>Publication Details</h2>
@@ -50,6 +60,9 @@
                 </div>
                 <div class="column3">
                     Year
+                </div>
+                <div class="column4">
+                    POF Structure
                 </div>
             </div>
             <div
@@ -68,6 +81,9 @@
                     </div>
                     <div class="column3">
                         {{ publication['published'].slice(0,4) }}
+                    </div>
+                    <div class="column4">
+                        {{ publication['pof_structure'] }}
                     </div>
                 </div>
                 <DropDownExtendBox>
@@ -122,13 +138,16 @@
             return {
                 api: new api.Api(),
                 publications: new Map(),
+                pofs: [],
                 years: [],
                 authors: [],
+                selectedPofs: [],
                 selectedYears: [],
                 selectedAuthors: [],
                 filteredPublications: new Map(),
                 metricsYear: {},
                 metricsAuthor: {},
+                metricsPof: {},
                 total: 0,
             }
         },
@@ -150,8 +169,10 @@
                         publications.sort(self.comparePublications);
 
                         let result = new Map();
+
                         let years = new Set();
                         let authors = new Set();
+                        let pofs = new Set()
 
                         for (let publication of publications) {
                             let uuid = publication['uuid'];
@@ -165,10 +186,20 @@
                             for (let metaAuthor of publication['meta_authors']) {
                                 authors.add(metaAuthor['full_name']);
                             }
+
+                            // Adding the POF structure to the set
+                            if (publication['pof_structure']) {
+                                pofs.add(publication['pof_structure'])
+                            } else {
+                                pofs.add('NONE');
+                            }
+
                         }
                         self.publications = result;
+
                         self.years = Array.from(years);
                         self.authors = Array.from(authors);
+                        self.pofs = Array.from(pofs);
                     })
             },
             onInput() {
@@ -179,12 +210,14 @@
                 for (let [uuid, publication] of this.publications) {
                     let year = publication['published'].slice(0, 4);
                     if (this.selectedYears.includes(year)) {
+                        let pofStructure = publication['pof_structure'] ? publication['pof_structure'] : 'NONE';
                         for (let metaAuthor of publication['meta_authors']) {
                             let fullName = metaAuthor['full_name'];
-                            if (this.selectedAuthors.includes(fullName)) {
+                            if (this.selectedAuthors.includes(fullName) && this.selectedPofs.includes(pofStructure)) {
                                 this.increaseMetrics(this.metricsAuthor, fullName);
 
                                 if (!result.get(uuid)) {
+                                    this.increaseMetrics(this.metricsPof, pofStructure);
                                     this.increaseMetrics(this.metricsYear, year);
                                     this.total += 1;
                                 }
@@ -206,6 +239,7 @@
             resetMetrics() {
                 this.metricsYear = {};
                 this.metricsAuthor = {};
+                this.metricsPof = {};
                 this.total = 0;
             }
         },
@@ -221,7 +255,8 @@
         flex-direction: row;
     }
 
-    .select.year {
+    .select.author {
+        margin-left: 10px;
         margin-right: 10px;
     }
     .select {
@@ -269,13 +304,18 @@
     }
 
     .column2 {
-        min-width: 35%;
-        max-width: 35%;
+        min-width: 25%;
+        max-width: 25%;
     }
 
     .column3 {
         min-width: 10%;
         max-width: 10%;
+    }
+
+    .column4 {
+        min-width: 20%;
+        max-width: 20%;
     }
 
     .additional-information {
