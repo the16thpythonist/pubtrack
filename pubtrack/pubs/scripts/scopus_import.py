@@ -25,8 +25,11 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 PATH = pathlib.Path(__file__).parent.absolute()
 LOG_PATH = '/tmp/pubtrack_scopus_import.log'
 
-PUBTRACK_URL = "http://pubtrack.ignorelist.com/api/v1"
-PUBTRACK_TOKEN = "6563a9f1b824b67d1225a5e5699890f85d729772"
+# PUBTRACK_URL = "http://pubtrack.ignorelist.com/api/v1"
+# PUBTRACK_TOKEN = "573e32eef8489a17eb9f448901d75fe1426eb610"
+
+PUBTRACK_URL = "http://0.0.0.0:8000/api/v1"
+PUBTRACK_TOKEN = "46a79e91844078302272ceace5339ea40905adc1"
 
 SCOPUS_API_KEY = "013ff70c81049af047c0648e87278a9a"
 

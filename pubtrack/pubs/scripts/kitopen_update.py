@@ -22,7 +22,7 @@ from pypubtrack.config import DEFAULT as PUBTRACK_DEFAULT
 LOG_PATH = '/tmp/pubtrack_kitopen_update.log'
 
 PUBTRACK_URL = "http://pubtrack.ignorelist.com/api/v1"
-PUBTRACK_TOKEN = "6563a9f1b824b67d1225a5e5699890f85d729772"
+PUBTRACK_TOKEN = "573e32eef8489a17eb9f448901d75fe1426eb610"
 
 START_YEAR = '2018'
 
@@ -118,7 +118,7 @@ for publication in results:
             logger.info(' * UPDATED publication {}'.format(publication.data['doi']))
             count_success += 1
         except Exception as e:
-            logger.error(' ! Error updating publication {}: "{}"'.format(publication.data['doi'], str(e)))
+            logger.error(' ! Warning updating publication {}: "{}"'.format(publication.data['doi'], str(e)))
         finally:
             count += 1
 

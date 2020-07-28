@@ -31,6 +31,7 @@
         padding-right: 5px;
         padding-left: 5px;
         margin-bottom: 5px;
+        margin-right: 15px;
 
         text-align: center;
         text-decoration: none;
