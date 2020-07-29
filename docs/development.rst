@@ -24,11 +24,19 @@ Requirements
 As mentioned before, the development makes heavy usage of Docker containers. So if not already installed, make sure to
 install both *docker* and *docker-compose*
 
+.. code-block:: bash
+
+    $ sudo apt-get install docker
+    $ sudo apt-get install docker-compose
+
+Setting Up
+----------
+
+To set up the local environment, the docker containers fist have to be built:
+
 .. code-block:: console
+    $ sudo docker-compose -f development.yml build
 
-    sudo apt-get install docker
-    sudo apt-get install docker-compose
 
-Realistically I would need a VM to test this...
 
 
