@@ -18,6 +18,7 @@ track of changes and potential issues in publication data.
    readme
    general
    development
+   installation
 
 
 Indices and tables
