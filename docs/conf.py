@@ -40,8 +40,7 @@ release = '0.1.0'
 # ones.
 extensions = [
     'sphinx.ext.mathjax',
-    'sphinx_rtd_theme',
-    'm2r'
+    'sphinx_rtd_theme'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

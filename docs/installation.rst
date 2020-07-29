@@ -10,6 +10,7 @@ To install the production version of the application on a linux server follow th
 0) Install docker compose on the system, if it is not already installed
 
 .. code-block:: bash
+
     sudo apt-get install docker-compose
 
 1) Fetch the source code from Github.
@@ -23,6 +24,18 @@ To install the production version of the application on a linux server follow th
 .. code-block:: bash
 
     $ bash build.sh
+
+3) Create an admin user for the django backend
+
+.. code-block:: bash
+
+    $ sudo docker-compose -f production.yaml run web python3 manage.py createsuperuser
+
+4) Run the application
+
+.. code-block:: bash
+
+    $ sudo docker-compose -f production.yaml up
 
 Tested Platforms
 ----------------
