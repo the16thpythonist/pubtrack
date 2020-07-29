@@ -35,6 +35,7 @@ Setting Up
 To set up the local environment, the docker containers fist have to be built:
 
 .. code-block:: bash
+
     $ sudo docker-compose -f development.yml build
 
 After the containers have been build, a new admin account has to be created for the django backend of the
@@ -42,7 +43,35 @@ application. Running this command will most likely first build the "postgres" co
 that is not included in the build process above. The command will prompt for input of a admin username and password.
 
 .. code-block:: bash
+
     $ sudo docker-compose -f development.yml run web python3 manage.py createsuperuser
 
+Then the necessary django migrations have to be applied to the new database with the following commands.
 
+.. code-block:: bash
+
+    $ sudo docker-compose -f development.yml run web python3 manage.py makemigrations pubs
+    $ sudo docker-compose -f development.yml run web python3 manage.py migrate
+
+At last the necessary node modules have to be installed for the front end code. Simply navigate to the frontend folder
+and install the packages.
+
+.. code-block:: bash
+
+    $ cd pubtrack/frontend
+    $ sudo npm install
+
+Running the App
+---------------
+
+To run the whole system simply use the following command.
+
+.. code-block:: bash
+
+    $ sudo docker-compose -f development.yml up
+
+This command will simultaneously run the Django backend and the frontend application as local servers. The result can
+be viewed by visiting `http://0.0.0.0:8000`. This development setup features dynamic changes in both backend and
+frontend code. Every modification made to a code file will be automatically detected and loaded by the local servers
+once the modified file has been saved. Thus changes can be made in real time.
 
