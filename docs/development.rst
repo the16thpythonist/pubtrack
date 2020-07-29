@@ -34,9 +34,15 @@ Setting Up
 
 To set up the local environment, the docker containers fist have to be built:
 
-.. code-block:: console
+.. code-block:: bash
     $ sudo docker-compose -f development.yml build
 
+After the containers have been build, a new admin account has to be created for the django backend of the
+application. Running this command will most likely first build the "postgres" container of the application first, as
+that is not included in the build process above. The command will prompt for input of a admin username and password.
+
+.. code-block:: bash
+    $ sudo docker-compose -f development.yml run web python3 manage.py createsuperuser
 
 
 
