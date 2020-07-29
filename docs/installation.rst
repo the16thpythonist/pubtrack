@@ -7,31 +7,31 @@ Installing on a Linux Server
 
 To install the production version of the application on a linux server follow these steps:
 
-0) Install docker compose on the system, if it is not already installed
+**0** Install docker compose on the system, if it is not already installed
 
 .. code-block:: bash
 
     sudo apt-get install docker-compose
 
-1) Fetch the source code from Github.
+**1** Fetch the source code from Github.
 
 .. code-block:: bash
 
     $ git clone https://github.com/the16thpythonist/pubtrack.git
 
-2) Navigate into the source code folder and run the `build.sh` script
+**2** Navigate into the source code folder and run the `build.sh` script
 
 .. code-block:: bash
 
     $ bash build.sh
 
-3) Create an admin user for the django backend
+**3** Create an admin user for the django backend
 
 .. code-block:: bash
 
     $ sudo docker-compose -f production.yaml run web python3 manage.py createsuperuser
 
-4) Run the application
+**4** Run the application
 
 .. code-block:: bash
 
