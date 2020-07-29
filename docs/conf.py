@@ -41,7 +41,7 @@ release = '0.1.0'
 extensions = [
     'sphinx.ext.mathjax',
     'sphinx_rtd_theme',
-    'm24'
+    'm2r'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
