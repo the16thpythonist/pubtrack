@@ -1,3 +1,6 @@
+from recommonmark.parser import CommonMarkParser
+
+source_parsers = {'.md': CommonMarkParser}
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
