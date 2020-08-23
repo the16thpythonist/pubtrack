@@ -24,7 +24,7 @@ Requirements
 As mentioned before, the development makes heavy usage of Docker containers. So if not already installed, make sure to
 install both *docker* and *docker-compose*
 
-.. code-block:: bash
+.. code-block:: console
 
     $ sudo apt-get install docker
     $ sudo apt-get install docker-compose
@@ -34,7 +34,7 @@ Setting Up
 
 To set up the local environment, the docker containers fist have to be built:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ sudo docker-compose -f development.yml build
 
@@ -42,13 +42,13 @@ After the containers have been build, a new admin account has to be created for 
 application. Running this command will most likely first build the "postgres" container of the application first, as
 that is not included in the build process above. The command will prompt for input of a admin username and password.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ sudo docker-compose -f development.yml run web python3 manage.py createsuperuser
 
 Then the necessary django migrations have to be applied to the new database with the following commands.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ sudo docker-compose -f development.yml run web python3 manage.py makemigrations pubs
     $ sudo docker-compose -f development.yml run web python3 manage.py migrate
@@ -56,7 +56,7 @@ Then the necessary django migrations have to be applied to the new database with
 At last the necessary node modules have to be installed for the front end code. Simply navigate to the frontend folder
 and install the packages.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ cd pubtrack/frontend
     $ sudo npm install
@@ -66,7 +66,7 @@ Running the App
 
 To run the whole system simply use the following command.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ sudo docker-compose -f development.yml up
 
