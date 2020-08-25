@@ -58,6 +58,8 @@ def get_scopus_url(eid: str) -> str:
 
     :param eid: The EID of the publication to display on scopus
 
+    :type eid: str
+
     :return:
     """
     tail = f'display.uri?eid={eid}&origin=resultslist'
@@ -70,6 +72,8 @@ def get_doi_url(doi: str) -> str:
 
     :param doi: The DOI of a publication to display
 
+    :type doi: str
+
     :return:
     """
     return os.path.join(DOI_URL, doi)
@@ -80,6 +84,8 @@ def get_kitopen_url(kitopen_id: str) -> str:
     Given the kitopen id of a publication, returns the url to display that publication on the KITOpen website.
 
     :param kitopen_id: The kitopen id of the publication
+
+    :type kitopen_id: str
 
     :return:
     """

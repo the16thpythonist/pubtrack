@@ -29,3 +29,9 @@ Documentation:
 - Extended the development section
 - Wrote installation section
 - Included README properly
+
+## 1.1.2 ()
+
+Documentation:
+- Docstrings pubs/util.py
+- Docstrings pubs/models.py

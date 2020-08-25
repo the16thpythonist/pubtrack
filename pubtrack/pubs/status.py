@@ -1,3 +1,6 @@
+"""
+A module wrapping the functionality for the computation of the publications status
+"""
 from typing import Dict, Union
 import datetime
 
@@ -39,6 +42,14 @@ def update_publication_status(publication: Publication):
 
 
 class PublicationStatusUpdater:
+    """
+    A class wrapping the functionality of updating the PublicationStatus of a Publication object appropriately.
+
+    :param publication: The Publication model object, which has to be updated.
+    :type publication: Publication
+
+    :ivar publication:
+    """
 
     def __init__(self, publication: Publication):
         self.publication = publication
