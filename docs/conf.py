@@ -1,7 +1,13 @@
 # This has to be added for autodoc to work
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../'))
+import pathlib
+PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.abspath('../pubtrack/'))
+sys.path.insert(1, os.path.abspath('../'))
+
+from django.core.management import settings
+settings.configure()
 
 from recommonmark.parser import CommonMarkParser
 

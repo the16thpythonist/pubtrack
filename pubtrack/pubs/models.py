@@ -9,11 +9,15 @@ represents an object, which has multiple properties and methods. These objects w
 sites database and can be queried to provide some sort of information to the REST interface and thus the frontend
 user.
 """
-from django.db import models
-from django.conf import settings
+import os
 
-from model_utils.models import TimeStampedModel
+from django.db import models
 import uuid
+
+if 'DOCUMENTATION' in os.environ.keys():
+    TimeStampedModel = object
+else:
+    from model_utils.models import TimeStampedModel
 
 
 """
