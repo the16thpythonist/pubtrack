@@ -19,7 +19,7 @@ track of changes and potential issues in publication data.
    general
    development
    installation
-   source/modules
+   modules
 
 
 Indices and tables
