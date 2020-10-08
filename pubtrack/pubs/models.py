@@ -14,10 +14,7 @@ import os
 from django.db import models
 import uuid
 
-if 'DOCUMENTATION' in os.environ.keys():
-    TimeStampedModel = object
-else:
-    from model_utils.models import TimeStampedModel
+from model_utils.models import TimeStampedModel
 
 
 """
@@ -71,25 +68,30 @@ class Institution(TimeStampedModel):
     application!
     """
 
-    """
-    :ivar slug:
-    """
-    slug = models.SlugField(max_length=255, unique=True, editable=False, primary_key=True)
+    # TODO: Write a comment about this!
+    class Meta:
+        app_label = 'pubs'
 
+
+    slug = models.SlugField(max_length=255, unique=True, editable=False, primary_key=True)
+    """
+    :ivar slug: kek
+    """
+
+    scopus_id = models.CharField(max_length=80, unique=True, blank=True)
     """
     :ivar scopus_id:
     """
-    scopus_id = models.CharField(max_length=80, unique=True, blank=True)
 
-    """
-    :ivar name:
-    """
     name = models.CharField(max_length=255)
-
     """
     :ivar name:
     """
+
     city = models.CharField(max_length=255)
+    """
+    :ivar city:
+    """
 
     def __str__(self) -> str:
         """
@@ -115,14 +117,18 @@ class Publication(TimeStampedModel):
     write and then publish in journals or conferences. These publications are also the subject of various other
     databases like Scopus and KITOpen. What the pubs application essentially only does is to import the knowledge about
     these publications from these other databases and "mirror" them into the local model.
+
+    :ivar uuid: This field contains a uuid for the publication. This uuid is generated automatically for each
+               publication and acts as the primary key for the model. The uuid is generated randomly and does not
+               contain any sort of information about the publication.
     """
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
     """
     :ivar uuid: This field contains a uuid for the publication. This uuid is generated automatically for each 
                publication and acts as the primary key for the model. The uuid is generated randomly and does not 
                contain any sort of information about the publication.
     """
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
 
     """
     :ivar title: This field contains the string title of the publication.

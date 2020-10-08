@@ -1,13 +1,16 @@
 # This has to be added for autodoc to work
 import os
 import sys
-import pathlib
-PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.abspath('../pubtrack/'))
-sys.path.insert(1, os.path.abspath('../'))
-
-from django.core.management import settings
-settings.configure()
+import django
+import configurations
+sys.path.insert(0, os.path.abspath('../'))
+# sys.path.insert(0, os.path.abspath('../pubtrack/'))
+os.environ['DJANGO_CONFIGURATION'] = "Production"
+os.environ['DJANGO_SETTINGS_MODULE'] = 'pubtrack.config.production'
+os.environ['DJANGO_SECRET_KEY'] = 'Documentation'
+os.environ['DOC'] = 'true'
+configurations.setup()
+django.setup()
 
 from recommonmark.parser import CommonMarkParser
 

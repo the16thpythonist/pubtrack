@@ -30,8 +30,10 @@ Documentation:
 - Wrote installation section
 - Included README properly
 
-## 1.1.2 ()
+## 1.1.2 (08/10/2020)
 
 Documentation:
+- Made Sphinxs autodoc to work
+    - Fixed docstring formatting
 - Docstrings pubs/util.py
 - Docstrings pubs/models.py
