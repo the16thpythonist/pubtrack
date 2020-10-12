@@ -30,10 +30,34 @@ Documentation:
 - Wrote installation section
 - Included README properly
 
-## 1.1.2 (08/10/2020)
+## 1.1.2 (10/08/2020)
 
 Documentation:
 - Made Sphinxs autodoc to work
     - Fixed docstring formatting
 - Docstrings pubs/util.py
 - Docstrings pubs/models.py
+
+## 1.1.3 (12/10/2020)
+
+Changed
+- "install.sh", which is a better script to be used, when installing the 
+pubtrack application on an entirely new system.
+- Renamed "production.yaml" to "production.yml"
+
+Documentation
+- Updated the installation instructions
+
+
+## TODO
+
+Command LIne Interface:
+- "build" script: A script which will attempt to build the necessary docker containers
+- "export" script: Generate a single folder which contains the contents of the database. This
+  will have to be imported again somewhere else
+- "import" script: Import the database content from a previously exported folder
+- "up" script: Start the container
+- "config" script: Configure important variables and environments
+
+Documentation:
+- Proper installation with pip
