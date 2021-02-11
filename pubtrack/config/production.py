@@ -1,6 +1,8 @@
 import os
 from .common import Common
 
+BASE_DIR = '/code'
+
 
 class Production(Common):
     DEBUG = False
@@ -16,13 +18,17 @@ class Production(Common):
     MIDDLEWARE = (
         # development only
         'django.middleware.security.SecurityMiddleware',
+        # WhiteNoise is a project which delivers static files directly from the python web server, which eliminates the
+        # need for the separate nginx reverse proxy: http://whitenoise.evans.io/en/stable/.
+        # This is the better alternative since this project is not meant to serve big traffic anyways and neither is it
+        # supposed to be publicly available.
+        'whitenoise.middleware.WhiteNoiseMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     )
 
     # Django Rest Framework
@@ -41,6 +47,11 @@ class Production(Common):
             'rest_framework.authentication.TokenAuthentication',
         )
     }
+
+    # This line enables all the optimizations which WhiteNoise provides in contrast to the default Django static file
+    # serving. That includes the appropriate generation of caching headers and the auto compression of large files.
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
     #Common.REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = ('rest_framework.renderers.JSONRenderer', )
 
     # Static files (CSS, JavaScript, Images)

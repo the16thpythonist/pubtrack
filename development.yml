@@ -28,6 +28,9 @@ services:
       - ./:/code
     ports:
       - "8080:8080"
+
+# Originally, the cookiecutter template also included a separate container to host the documentation, but we dont need
+# that since the documentation is managed using RTD.
 #  documentation:
 #    restart: always
 #    build: ./

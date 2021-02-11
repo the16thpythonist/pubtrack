@@ -13,9 +13,7 @@ services:
     build: ./
     command: >
       bash -c "python wait_for_postgres.py &&
-               ./manage.py collectstatic --noinput &&
-               whoami &&
-               ls -la /code/static/ &&
+               ./manage.py collectstatic --noinput --configuration Production &&
                ./manage.py migrate &&
                ./manage.py runserver --configuration=Production 0.0.0.0:8000"
     volumes:
@@ -25,12 +23,12 @@ services:
     depends_on:
       - postgres
 
-  nginx:
-    restart: always
-    build: ./nginx/
-    ports:
-      - "80:80"
-    volumes:
-      - ./:/code
-    links:
-      - web:web
+#  nginx:
+#    restart: always
+#    build: ./nginx/
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./:/code
+#    links:
+#      - web:web

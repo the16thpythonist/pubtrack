@@ -7,7 +7,7 @@ class Local(Common):
     DEBUG = True
 
     # Testing
-    INSTALLED_APPS = Common.INSTALLED_APPS
+    INSTALLED_APPS = ('whitenoise.runserver_nostatic', ) + Common.INSTALLED_APPS
     INSTALLED_APPS += ('django_nose',)
     TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
     NOSE_ARGS = [
@@ -23,6 +23,11 @@ class Local(Common):
     MIDDLEWARE = (
         # development only
         'django.middleware.security.SecurityMiddleware',
+        # WhiteNoise is a project which delivers static files directly from the python web server, which eliminates the
+        # need for the separate nginx reverse proxy: http://whitenoise.evans.io/en/stable/.
+        # This is the better alternative since this project is not meant to serve big traffic anyways and neither is it
+        # supposed to be publicly available.
+        'whitenoise.middleware.WhiteNoiseMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',

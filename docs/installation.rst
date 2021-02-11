@@ -54,7 +54,7 @@ be prompted to supply credentials for the admin user profile of the application.
 
     $ bash install.sh
 
-**4** Run the application
+**(4)** Run the application
 
 .. code-block:: console
 
