@@ -52,13 +52,13 @@ be prompted to supply credentials for the admin user profile of the application.
 
 .. code-block:: console
 
-    $ bash install.sh
+    $ sudo bash install.sh
 
 **(4)** Run the application
 
 .. code-block:: console
 
-    $ sudo docker-compose -f production.yaml up
+    $ sudo docker-compose -f production.yml up
 
 Tested Platforms
 ~~~~~~~~~~~~~~~~
