@@ -11,7 +11,8 @@ shopt -s dotglob
 # In this case I looked into the docker file (on which all of this is supposed to be based) and it puts all the code
 # into the /code folder...
 echo -e "\n==| COPYING APPLICATION SOURCE CODE |=="
-mv /tmp/src/*
+mkdir /code
+mv /tmp/src/* /code
 
 # From this point on I am pretty sure we can just execute custom commands. One major problem is, that openshift is a
 # redhat based system, which means that I cannot just copy all of the "apt-get" installations of the dependencies. I
@@ -22,7 +23,7 @@ mv /tmp/src/*
 # "apt-get install python3.8".
 echo -e "\n==| INSTALLING PYTHON 3.8 |=="
 yum -y update
-yum -y install wget
+yum -y install wget curl
 echo "[+] Installed wget"
 cd /tmp
 wget https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz
@@ -38,4 +39,18 @@ echo -e "\n==| INSTALLING REQUIRED PYTHON PACKAGES |=="
 cd /code
 python3.8 -m pip install -r requirements.txt
 echo "[+] Installed all requirements"
+
+echo -e "\n==| INSTALLING NODE VERSION MANAGER |=="
+curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+yum -y install nodejs
+echo "[+] Installed node: ${node --version}"
+echo "[+] Installed npm: ${npm --version}"
+
+echo "\n==| BUILDING FRONTEND CODE |=="
+cd /code/pubtrack/frontend
+npm install
+echo "[+] Installed javascript dependencies"
+npm run build
+echo "[+] Compiled frontend code"
+
 
