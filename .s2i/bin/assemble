@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# To be honest, I have no clue what these actually do. I just copied them from the other build script I did back in the
+# day...
+set -e
+shopt -s dotglob
+# I dont really know what this is doing but here is my educated guess. So the whole s2i process creates a new docker
+# container from a source repository. This means at some point the source repository needs to be cloned. I am assuming
+# the source code is inside the /tmp/src folder. And then obviously we need to move it to the place where it is actually
+# supposed to be as per the requirement of the application code.
+# In this case I looked into the docker file (on which all of this is supposed to be based) and it puts all the code
+# into the /code folder...
+echo -e "\n==| COPYING APPLICATION SOURCE CODE |=="
+mv /tmp/src/*
+
+# From this point on I am pretty sure we can just execute custom commands. One major problem is, that openshift is a
+# redhat based system, which means that I cannot just copy all of the "apt-get" installations of the dependencies. I
+# Will have to find the equivalent packages for "yum"
+
+# Seriously... So apparently redhat is too stupid to support the latest version of Python properly so you have to do
+# all of this crap literaly just to install the latest version of python, which on debian would have been
+# "apt-get install python3.8".
+echo -e "\n==| INSTALLING PYTHON 3.8 |=="
+yum -y update
+yum -y install wget
+echo "[+] Installed wget"
+cd /tmp
+wget https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz
+echo "[+] Used wget to fetch the source code"
+tar xzf Python-3.8.3.tgz
+cd Python-3.8.3
+echo "[+] Unpacked source code"
+./configure --enable-optimizations
+sudo make altinstall
+echo "[+] Installed python: ${python3.8 --version}"
+
+echo -e "\n==| INSTALLING REQUIRED PYTHON PACKAGES |=="
+cd /code
+python3.8 -m pip install -r requirements.txt
+echo "[+] Installed all requirements"
+
