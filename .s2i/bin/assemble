@@ -13,6 +13,7 @@ shopt -s dotglob
 echo -e "\n==| COPYING APPLICATION SOURCE CODE |=="
 sudo mkdir /code
 sudo mv /tmp/src/* /code
+sudo cp /code/README.md /code/pubtrack/README.md
 
 # From this point on I am pretty sure we can just execute custom commands. One major problem is, that openshift is a
 # redhat based system, which means that I cannot just copy all of the "apt-get" installations of the dependencies. I
@@ -53,6 +54,19 @@ echo "[+] Installed javascript dependencies"
 npm run build
 echo "[+] Compiled frontend code"
 
-echo -e "\n==| INITIAL DATABASE SETUP |=="
+#echo -e "\n==| INITIAL DATABASE SETUP |=="
+#cd /code
+#python3.8 wait_for_postgres.py
+#python3.8 manage.py makemigrations
+#python3.8 manage.py migrate
+#echo "[+] Applied migrations to the database"
+## This should really not be in here. Instead I should be doing this with actual
+## env variables which wil lve set within Openshift in the future...
+#export DJANGO_SUPERUSER_USERNAME=admin
+#export DJANGO_SUPERUSER_EMAIL=jonseb1998@gmail.com
+#export DJANGO_SUPERUSER_PASSWORD=admin
+#python3.8 manage.py createsuperuser --no-input
+#echo "[+] Created a new superuser"
 
-
+echo -e "\n==| STARTING THE PRODUCTION SERVER |=="
+newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - pubtrack.wsgi:application
