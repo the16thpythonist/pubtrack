@@ -10,12 +10,15 @@ shopt -s dotglob
 # supposed to be as per the requirement of the application code.
 # In this case I looked into the docker file (on which all of this is supposed to be based) and it puts all the code
 # into the /code folder...
+ls /
+ls /code
 echo -e "\n==| COPYING APPLICATION SOURCE CODE |=="
 export SRC="$(pwd)"
 cd $SRC
 mkdir "$SRC"/code
 mv /tmp/src/* "$SRC"/code
 cp "$SRC"/code/README.md "$SRC"/code/pubtrack/README.md
+echo "[+] Moved the application source to: ${SRC}/code"
 
 # From this point on I am pretty sure we can just execute custom commands. One major problem is, that openshift is a
 # redhat based system, which means that I cannot just copy all of the "apt-get" installations of the dependencies. I
@@ -25,7 +28,6 @@ cp "$SRC"/code/README.md "$SRC"/code/pubtrack/README.md
 # all of this crap literally just to install the latest version of python, which on debian would have been
 # "apt-get install python3.8".
 echo -e "\n==| INSTALLING PYTHON 3.8 |=="
-yum -y update
 yum -y install wget curl
 echo "[+] Installed wget"
 cd /tmp
