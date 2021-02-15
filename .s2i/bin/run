@@ -1,6 +1,6 @@
 # So apparently the "run" script within this s2i folder controls how the application is
 # actually started when the pod actually goes online (I assume...)
-cd /code
+cd code
 python3.8 wait_for_postgres.py
 python3.8 manage.py collectstatic --noinput --configuration Production
 python3.8 migrate
