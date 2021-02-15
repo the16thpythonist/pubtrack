@@ -11,6 +11,8 @@ shopt -s dotglob
 # In this case I looked into the docker file (on which all of this is supposed to be based) and it puts all the code
 # into the /code folder...
 echo -e "\n==| COPYING APPLICATION SOURCE CODE |=="
+pwd
+ls ./
 ls /
 mkdir /code
 mv /tmp/src/* /code
