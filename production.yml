@@ -5,12 +5,16 @@ services:
   postgres:
     image: postgres:11.6
 
-  web:
+  pubtrack:
     restart: always
     environment:
       - DJANGO_SECRET_KEY=local
-    image: web
-    build: ./
+    image: pubtrack
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PUBTRACK_DOMAIN=${PUBTRACK_DOMAIN}
     command: >
       bash -c "python wait_for_postgres.py &&
                ./manage.py collectstatic --noinput --configuration Production &&

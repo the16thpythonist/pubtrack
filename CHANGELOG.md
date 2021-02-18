@@ -86,6 +86,16 @@ Documentation:
 
 - Minor fixes in the installation section
 
+## 1.3.0 
+
+Changed:
+
+- kek
+
+Important Links:
+
+https://stackoverflow.com/questions/52429984/docker-compose-build-environment-variable 
+
 ## TODO
 
 Command LIne Interface:
