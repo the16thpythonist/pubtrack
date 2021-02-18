@@ -57,4 +57,9 @@ WORKDIR CODE
 EXPOSE 8000
 
 # Run the production server
-CMD newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - pubtrack.wsgi:application
+# CMD newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - pubtrack.wsgi:application
+CMD bash -c "echo '==| STARTING PUBTRACK |==' &&
+             python wait_for_postgres.py &&
+             ./manage.py collectstatic --noinput --configuration Production &&
+             ./manage.py migrate &&
+             ./manage.py runserver --configuration=Production 0.0.0.0:8000"
