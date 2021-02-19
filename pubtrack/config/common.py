@@ -58,7 +58,7 @@ class Common(Configuration):
     POSTGRES_DATABASE = os.getenv("POSTGRES_DB", "postgres"),
     POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres"),
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", ""),
-    POSTGRES_HOST = os.getenv("DATABASE_URL", "postgres")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
     DATABASES = {
         'default': dj_database_url.config(
             default=f'postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:5432/{POSTGRES_DATABASE}',
