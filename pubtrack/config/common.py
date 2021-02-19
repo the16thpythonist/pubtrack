@@ -59,9 +59,11 @@ class Common(Configuration):
     POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres"),
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", ""),
     POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
+    DATABASE_URL = f'postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:5432/{POSTGRES_DATABASE}'
+    print(DATABASE_URL)
     DATABASES = {
         'default': dj_database_url.config(
-            default=f'postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:5432/{POSTGRES_DATABASE}',
+            default=DATABASE_URL,
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }

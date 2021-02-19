@@ -64,7 +64,7 @@ USER 0
 # Note: A Dockerfile absolutely needs the "\" character when doing a multiline expression. Otherwise it will interpret
 # the newline as a seperate command!
 CMD bash -c "echo '==| WAITING FOR POSTGRES DB |==' \
-             && echo 'python wait_for_postgres.py' \
+             && python wait_for_postgres.py \
              && echo '==| STATIC FILES AND DB MIGRATIONS |==' \
              && ./manage.py collectstatic --noinput --configuration Production \
              && ./manage.py migrate \
