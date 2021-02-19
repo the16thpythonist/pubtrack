@@ -55,6 +55,7 @@ RUN cd /code/pubtrack/frontend \
 WORKDIR /code
 
 EXPOSE 8000
+USER root
 
 # Run the production server
 # CMD newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - pubtrack.wsgi:application
