@@ -52,14 +52,17 @@ RUN cd /code/pubtrack/frontend \
     && npm install \
     && npm run build
 
-WORKDIR CODE
+WORKDIR code
 
 EXPOSE 8000
 
 # Run the production server
 # CMD newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - pubtrack.wsgi:application
-CMD bash -c "echo '==| STARTING PUBTRACK |==' &&
-             python wait_for_postgres.py &&
-             ./manage.py collectstatic --noinput --configuration Production &&
-             ./manage.py migrate &&
-             ./manage.py runserver --configuration=Production 0.0.0.0:8000"
+
+# Note: A Dockerfile absolutely needs the "\" character when doing a multiline expression. Otherwise it will interpret
+# the newline as a seperate command!
+CMD bash -c "echo '==| STARTING PUBTRACK |==' \
+             && python wait_for_postgres.py \
+             && ./manage.py collectstatic --noinput --configuration Production \
+             && ./manage.py migrate \
+             && ./manage.py runserver --configuration=Production 0.0.0.0:8000"
