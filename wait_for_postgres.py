@@ -1,6 +1,7 @@
 import os
 import logging
 from time import time, sleep
+from pprint import pprint
 import psycopg2
 check_timeout = os.getenv("POSTGRES_CHECK_TIMEOUT", 30)
 check_interval = os.getenv("POSTGRES_CHECK_INTERVAL", 1)
@@ -33,4 +34,5 @@ def pg_isready(host, user, password, dbname):
     return False
 
 
+pprint(config)
 pg_isready(**config)
