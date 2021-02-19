@@ -53,6 +53,7 @@ RUN cd /code/pubtrack/frontend \
     && npm run build
 
 WORKDIR /code
+RUN mkdir /code/static && chmod -R 0777 /code/static
 
 EXPOSE 8000
 USER 0
