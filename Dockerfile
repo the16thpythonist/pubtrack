@@ -52,7 +52,7 @@ RUN cd /code/pubtrack/frontend \
     && npm install \
     && npm run build
 
-WORKDIR code
+WORKDIR /code
 
 EXPOSE 8000
 
@@ -61,8 +61,12 @@ EXPOSE 8000
 
 # Note: A Dockerfile absolutely needs the "\" character when doing a multiline expression. Otherwise it will interpret
 # the newline as a seperate command!
-CMD bash -c "echo '==| STARTING PUBTRACK |==' \
+CMD bash -c "echo '==| PRINTING FOLDER STRUCTURE |==' \
+             && pwd && ls -la \
+             && ls -la /code \
+             && echo '==| WAITING FOR POSTGRES DB |==' \
              && python wait_for_postgres.py \
              && ./manage.py collectstatic --noinput --configuration Production \
              && ./manage.py migrate \
+             && echo '==| STARTING WEB SERVER |==' \
              && ./manage.py runserver --configuration=Production 0.0.0.0:8000"
