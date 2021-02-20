@@ -20,8 +20,8 @@ VUE_APP_API_URL "http://$PUBTRACK_DOMAIN:$PUBTRACK_PORT/api/v1/" npm run build
 echo "==| STATIC FILES AND MIGRATIONS |=="
 cd /code
 python manage.py collectstatic --noinput --configuration Production
-pythin manage.py makemigrations
+python manage.py makemigrations
 python manage.py migrate
 
 echo "==| STARTING SERVER |=="
-python manage runserver --configuration=Production 0.0.0.0:8000
+python manage.py runserver --configuration=Production 0.0.0.0:8000
