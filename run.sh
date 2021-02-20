@@ -9,6 +9,14 @@
 # - POSTGRES_DB: The database name
 # - POSTGRES_HOST: The hostname under which the postgres database is accessible
 
+# TODO: Explain this code
+echo "==| (OPTIONAL) OPENSHIFT PERMISSIONS |=="
+if ! whoami &> /dev/null; then
+  if [ -w /etc/passwd ]; then
+    echo "${USER_NAME:-default}:x:$(id -u):0:${USER_NAME:-default} user:${HOME}:/sbin/nologin" >> /etc/passwd
+  fi
+fi
+
 echo "==| WAITING FOR POSTGRES |=="
 python wait_for_postgres.py
 
