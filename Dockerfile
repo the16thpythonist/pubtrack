@@ -32,6 +32,7 @@ WORKDIR code
 
 WORKDIR /code
 RUN mkdir /code/static && chmod -R 0777 /code/static
+RUN chmod -R 0777 /code/pubtrack/frontend
 
 EXPOSE 8000
 USER 0
