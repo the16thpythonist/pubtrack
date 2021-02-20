@@ -2,8 +2,8 @@
 Installation
 ============
 
-Installing on a Linux Server
-----------------------------
+Installing on a standalone Linux Server
+---------------------------------------
 
 Requirements
 ~~~~~~~~~~~~
@@ -66,3 +66,34 @@ Tested Platforms
 - Ubuntu 20.04 LTS
 - Raspberry Pi 3, Debian Jessie
 - Raspberry Pi 4, Debian Buster
+
+
+Installing on OpenShift
+-----------------------
+
+The installation on OpenShift is slightly more complicated than the installation on a standalone server, because there
+are more manual steps involved. In the future it would be nice to have a script, which wraps this.
+
+**NOTE:** The following sections will provide a step-by-step guide for the installation. All text within the console
+examples, which is enclosed by curled brackets is supposed to be replaced with values that are appropriate with your
+own setup! Within these curled brackets, there will be an example for how that value might look like. But it is
+important to not copy the curled brackets, when following this guide!
+
+Installing Postgres
+~~~~~~~~~~~~~~~~~~~
+
+The first step is to deploy a new postgres database application in your OpenShift project, which the pubtrack
+application will be able to use.
+
+The following repository provides the necessary Dockerfile to create a new OpenShift postgres image:
+https://github.com/sclorg/postgresql-container/tree/generated/10
+
+Build a new postgres image.
+
+.. code-block:: console
+
+    $ oc new-build --name={postgres} \
+                   --strategy=docker \
+                   --context-dir="10" https://github.com/sclorg/postgresql-container.git#generated
+
+**TODO:** How to add persistent volume mount.

@@ -90,11 +90,21 @@ Documentation:
 
 Changed:
 
-- kek
+- OpenShift support
+    - The frontend code is now compiled within the Dockerfile and not as an external step. The Domain name is passed 
+      into the container build environment by environmental variable.
+    - Dockerfile default CMD now is the production script for starting the server
+    - The "common" configuration now fetches the database access credentials from environmental variables
+
+Documentation: 
+
+- Added installation instructions for OpenShift
+- Updated the installation instructions for standalone server to comply with the changes
 
 Important Links:
 
-https://stackoverflow.com/questions/52429984/docker-compose-build-environment-variable 
+- https://stackoverflow.com/questions/52429984/docker-compose-build-environment-variable 
+- https://github.com/sclorg/postgresql-container/tree/generated/10
 
 ## TODO
 
