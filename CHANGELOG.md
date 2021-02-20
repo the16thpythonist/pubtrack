@@ -86,7 +86,7 @@ Documentation:
 
 - Minor fixes in the installation section
 
-## 1.3.0 
+## 1.3.0 (19.02.2021)
 
 Changed:
 
@@ -105,6 +105,12 @@ Important Links:
 
 - https://stackoverflow.com/questions/52429984/docker-compose-build-environment-variable 
 - https://github.com/sclorg/postgresql-container/tree/generated/10
+
+## 1.3.1 (20.02.2021)
+
+Changed:
+
+- kek
 
 ## TODO
 
