@@ -16,6 +16,7 @@ with open('requirements.txt') as requirements_file:
     requirements = readme_file.readlines()
     # The requirements file still contains some empty lines and comments, which need to be cleaned up
     requirements = [line for line in requirements if line != '' and not line.startswith('#')]
+    requirements = ['click==7.1.2']
 
 
 setup(
@@ -27,5 +28,15 @@ setup(
         'console_scripts': [
             'pubtrack=pubtrack.cli:cli'
         ]
-    }
+    },
+    install_requirements=requirements,
+    license='MIT license',
+    long_description=readme + '\n\n' + changelog,
+    include_package_data=True,
+    keywords='pubtrack',
+    name='pubtrack',
+    packages=find_packages(include=['pubtrack', 'pubtrack.*']),
+    url='https://github.com/the16thpythonist/pubtrack',
+    version=version,
+    zip_safe=False
 )

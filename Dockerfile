@@ -2,6 +2,8 @@ FROM python:3.8
 MAINTAINER Jonas Teufek <jonseb1998@gmail.com>
 ENV PYTHONUNBUFFERED 1
 
+USER 0
+
 # Allows docker to cache installed dependencies between builds
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
@@ -40,7 +42,6 @@ WORKDIR ${APP_ROOT}
 RUN mkdir ${APP_ROOT}/static && \
     chmod -R 0777 ${APP_ROOT}/static && \
     chmod -R 0777 ${APP_ROOT}/pubtrack/frontend && \
-    ls -la ${APP_ROOT}/pubtrack/frontend
 
 EXPOSE 8000
 USER 10001

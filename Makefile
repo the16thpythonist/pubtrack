@@ -83,6 +83,6 @@ dist: clean ## builds source and wheel package
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	cp VERSION pypubtrack/VERSION
-	python3 -m pip uninstall -y pypubtrack
+	cp VERSION cli/VERSION
+	python3 -m pip uninstall -y pubtrack
 	python3 -m pip install --user .

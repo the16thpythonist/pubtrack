@@ -106,7 +106,16 @@ Important Links:
 - https://stackoverflow.com/questions/52429984/docker-compose-build-environment-variable 
 - https://github.com/sclorg/postgresql-container/tree/generated/10
 
-## 1.3.1 (20.02.2021)
+## 1.4.0 (20.02.2021)
+
+Added:
+
+- Added the basic files, which are needed to make the project installable by pip.
+    - setup.py
+    - MANIFEST.in
+    - Makefile
+    - VERSION
+- Added a cli.py file, which in the future will define terminal commands for the project.
 
 Changed:
 
