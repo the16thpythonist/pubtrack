@@ -110,12 +110,15 @@ Important Links:
 
 Changed:
 
-- kek
+- Added the script "run.sh". The execution of this script is now the default action for the dockerfile
+- The compilation of the frontend code is no longer part of the Dockerfile, but instead it is part of "run.sh"
+  which means it is done each time, the container starts.
+  
+Documentation:
+
+- Adjusted the installation instructions accordingly
 
 ## TODO
-
-- Redesign the deployment process so that the frontend code is not compiled during the build of the container 
-  but rather everytime the container is started. Just seems like a better idea.
 
 Command LIne Interface:
 

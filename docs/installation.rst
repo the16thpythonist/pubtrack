@@ -106,7 +106,7 @@ version of your openshift cluster. This could lead to the problem that oc tries 
 unsupported tag, which leads to an error. So just do it in the console.
 
 In the OpenShift web console then navigate to *"Add to project"* in the upper right corner of the UI. Select the
-option *"From imagestream"*. Within this window select the namespace to be your project, the image name *"{postgres}"*
+option *"Deploy Image"*. Within this window select the namespace to be your project, the image name *"{postgres}"*
 is the name which you have previously given to the build. The tag will be *"latest"*.
 
 Then it is also important to define the following environmental variables for the postgres deployment, which will
@@ -118,7 +118,10 @@ manage the access to the database:
 
 After confirming the action, a new deployment will be started.
 
-**TODO:** How to add persistent volume mount.
+The last thing to do is to add a persistent volume mount, so that the database content is not lost when the postgres
+container is restarted. For this it is best to use the web console as well. Navigate to the deployment config of
+{postgres} and under the tab *Configuration* add a new *Volume Claim*. As path set `/var/lib/pgsql/data` and the
+volume of your choice.
 
 Installing Pubtrack
 ~~~~~~~~~~~~~~~~~~~
@@ -129,16 +132,11 @@ First build the pubtrack image from it's repository:
 
     $ oc new-build https://github.com/the16thpythonist/pubtrack.git \
                    --name={pubtrack} \
-                   --strategy=docker \
-                   --env="PUBTRACK_DOMAIN={pubtrack.mydomain.com}"
-
-During this step it is important, that you pass the env variable `PUBTRACK_DOMAIN`, which contains the public url name
-which pubtrack will be using later on. You will have to create this name later on as a *OpenShift Route*. It will be a
-sub domain of the general domain which your cluster has.
+                   --strategy=docker
 
 This build process might take several minutes. After it is done create a deployment using the Web console.
 
-In *"Add to project"* select *"from imagestream"*. Select your project name as the namespace, *"{pubtrack}"* image and
+In *"Add to project"* select *"Deploy Image"*. Select your project name as the namespace, *"{pubtrack}"* image and
 the *"latest"* tag.
 
 Supply the following environmental variables:
@@ -148,11 +146,16 @@ Supply the following environmental variables:
 - `POSTGRES_PASSWORD`: {dbpassword}
 - `POSTGRES_DB`: {dbname}
 - `POSTGRES_HOST`: {postgres}
+- `PUBTRACK_DOMAIN`: {pubtrack.mydomain.com}
+- `PUBTRACK_PORT`: 80
+
+During this step it is important, that you pass the env variable `PUBTRACK_DOMAIN`, which contains the public url name
+which pubtrack will be using later on. You will have to create this name later on as a *OpenShift Route*. It will be a
+sub domain of the general domain which your cluster has.
 
 After confirming the action, the new deployment will start.
 
 At last, you will have to create a new route for the pubtrack service. For this, navigate to the *Routes* page within
 the OpenShift web console. Add a new route with the name "{pubtrack}" and enter the value "{pubtrack.mydomain.com}".
-For the service, select the "{pubtrack}" service and make sure, that it actually uses the pubtrack default port 8000.
 
-Visit http://{pubtrack.mydomain.com}:8000 to see if it working.
+Visit http://{pubtrack.mydomain.com}:80 to see if it is working.

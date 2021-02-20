@@ -15,7 +15,8 @@ python wait_for_postgres.py
 echo "==| COMPILING FRONTEND CODE |=="
 cd /code/pubtrack/frontend
 npm install
-VUE_APP_API_URL "http://$PUBTRACK_DOMAIN:$PUBTRACK_PORT/api/v1/" npm run build
+export VUE_APP_API_URL="http://$PUBTRACK_DOMAIN:$PUBTRACK_PORT/api/v1/"
+npm run build
 
 echo "==| STATIC FILES AND MIGRATIONS |=="
 cd /code

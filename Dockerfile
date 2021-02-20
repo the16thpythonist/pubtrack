@@ -28,14 +28,16 @@ RUN npm install -g @vue/cli
 # Adds our application code to the image
 COPY . code
 COPY ./README.md code/pubtrack/README.md
-WORKDIR code
+
+# This is necessary in OpenShift to support arbitrary user ID's
+RUN chgrp -R 0 /code \
+    chmod -R g=u /code
 
 WORKDIR /code
 RUN mkdir /code/static && chmod -R 0777 /code/static
-RUN chmod -R 0777 /code/pubtrack/frontend
 
 EXPOSE 8000
-USER 0
+USER 1001
 
 # Note: A Dockerfile absolutely needs the "\" character when doing a multiline expression. Otherwise it will interpret
 # the newline as a seperate command!

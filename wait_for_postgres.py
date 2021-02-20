@@ -34,5 +34,4 @@ def pg_isready(host, user, password, dbname):
     return False
 
 
-pprint(config)
 pg_isready(**config)
