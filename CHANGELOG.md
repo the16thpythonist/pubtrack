@@ -108,6 +108,9 @@ Important Links:
 
 ## TODO
 
+- Redesign the deployment process so that the frontend code is not compiled during the build of the container 
+  but rather everytime the container is started. Just seems like a better idea.
+
 Command LIne Interface:
 
 - "build" script: A script which will attempt to build the necessary docker containers

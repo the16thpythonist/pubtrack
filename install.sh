@@ -29,7 +29,7 @@ echo "Starting to build the frontend code"
 echo "PUBTRACK_DOMAIN=$PUBTRACK_DOMAIN"
 cd ./pubtrack/frontend
 sudo npm install
-sudo VUE_APP_API_URL="http://$PUBTRACK_DOMAIN:8000/api/v1/" npm run build
+sudo -E VUE_APP_API_URL="http://$PUBTRACK_DOMAIN:8000/api/v1/" npm run build
 
 # BUILDING THE DOCKER CONTAINERS
 # ==============================
