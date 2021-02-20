@@ -33,11 +33,14 @@ COPY . ${APP_ROOT}
 COPY ./README.md ${APP_ROOT}/pubtrack/README.md
 
 # This is necessary in OpenShift to support arbitrary user ID's
-RUN chgrp -R 0 ${APP_ROOT} \
-    && chmod -R g=u ${APP_ROOT} /etc/passwd
+RUN chgrp -R 0 ${APP_ROOT} && \
+    chmod -R g=u ${APP_ROOT} /etc/passwd
 
 WORKDIR ${APP_ROOT}
-RUN mkdir ${APP_ROOT}/static && chmod -R 0777 ${APP_ROOT}/static
+RUN mkdir ${APP_ROOT}/static && \
+    chmod -R 0777 ${APP_ROOT}/static && \
+    chmod -R 0777 ${APP_ROOT}/pubtrack/frontend && \
+    ls -la ${APP_ROOT}/pubtrack/frontend
 
 EXPOSE 8000
 USER 10001

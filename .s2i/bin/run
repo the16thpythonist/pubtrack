@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# So apparently the "run" script within this s2i folder controls how the application is
-# actually started when the pod actually goes online (I assume...)
-cd /code
-python wait_for_postgres.py
-python manage.py collectstatic --noinput --configuration Production
-python migrate
-python runserver --configuration=Production 0.0.0.0:8000
