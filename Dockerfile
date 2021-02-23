@@ -39,10 +39,10 @@ RUN chgrp -R 0 ${APP_ROOT} && \
     chmod -R g=u ${APP_ROOT} /etc/passwd
 
 WORKDIR ${APP_ROOT}
-RUN chmod -R 777 ${APP_ROOT}
-#RUN mkdir ${APP_ROOT}/static && \
-#    chmod -R 777 ${APP_ROOT}/static && \
-#    chmod -R 777 ${APP_ROOT}/pubtrack/frontend
+RUN chmod -R 777 /.npm
+RUN mkdir ${APP_ROOT}/static && \
+    chmod -R 777 ${APP_ROOT}/static && \
+    chmod -R 777 ${APP_ROOT}/pubtrack/frontend
 
 EXPOSE 8000
 USER 10001

@@ -17,6 +17,12 @@ def get_version() -> str:
         return version_file.read().replace('\n', '').replace(' ', '')
 
 
+def execute_command(command: str, verbose=True) -> str:
+    click.secho(f'[*] {command}', fg='gray')
+    os.system(command)
+
+    return ''
+
 # ACTUAL CLI COMMAND IMPLEMENTATIONS
 # ==================================
 
