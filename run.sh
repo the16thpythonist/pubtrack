@@ -21,6 +21,9 @@ if ! whoami &> /dev/null; then
     ls -la /code/pubtrack/frontend
   fi
 fi
+echo "Trying app-root"
+ls -la /opt/app-root
+mkdir /opt/app-root/test
 
 echo "==| WAITING FOR POSTGRES |=="
 python wait_for_postgres.py

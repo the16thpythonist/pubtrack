@@ -13,7 +13,7 @@ with open('VERSION') as version_file:
 
 with open('requirements.txt') as requirements_file:
     # The requirements need to be a list of strings. That is why we are using readline here instead of read
-    requirements = readme_file.readlines()
+    requirements = requirements_file.readlines()
     # The requirements file still contains some empty lines and comments, which need to be cleaned up
     requirements = [line for line in requirements if line != '' and not line.startswith('#')]
     requirements = ['click==7.1.2']

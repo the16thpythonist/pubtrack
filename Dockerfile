@@ -43,6 +43,8 @@ RUN mkdir ${APP_ROOT}/static && \
     chmod -R 0777 ${APP_ROOT}/static && \
     chmod -R 0777 ${APP_ROOT}/pubtrack/frontend
 
+RUN ls -la /opt/app-root
+
 EXPOSE 8000
 USER 10001
 
