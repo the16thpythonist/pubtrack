@@ -16,6 +16,7 @@ def get_version() -> str:
         # contains an unwanted extra whitespace or newline character. These have to be cleaned up.
         return version_file.read().replace('\n', '').replace(' ', '')
 
+
 # ACTUAL CLI COMMAND IMPLEMENTATIONS
 # ==================================
 
@@ -23,8 +24,16 @@ def get_version() -> str:
 @click.option('-v', '--version', is_flag=True)
 @click.pass_context
 def cli(ctx, version):
+    """
+    == PUBTRACK COMMAND LINE UTILITIES ==
 
+
+    """
     if version:
         version = get_version()
         click.secho(version, bold=True)
         return 0
+
+
+if __name__ == "__main__":
+    cli()
