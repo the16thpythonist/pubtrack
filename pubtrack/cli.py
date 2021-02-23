@@ -21,7 +21,7 @@ def get_version() -> str:
 # ==================================
 
 @click.group('pubtrack', invoke_without_command=True)
-@click.option('-v', '--version', is_flag=True)
+@click.option('-v', '--version', is_flag=True, short_help='Print the version string for the project')
 @click.pass_context
 def cli(ctx, version):
     """
@@ -33,6 +33,16 @@ def cli(ctx, version):
         version = get_version()
         click.secho(version, bold=True)
         return 0
+
+
+@click.command('build')
+@click.argument('mode', type=click.Choice(['Production', 'local'], case_sensitive=False))
+@click.pass_context
+def build(ctx, mode):
+    click.secho('==| BUILDING PUBTRACK CONTAINERS |==')
+    click.secho(f'--| Mode: {mode}')
+
+    return 0
 
 
 if __name__ == "__main__":
