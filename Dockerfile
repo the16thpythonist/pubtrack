@@ -1,5 +1,5 @@
 FROM python:3.8
-MAINTAINER Jonas Teufek <jonseb1998@gmail.com>
+MAINTAINER Jonas Teufel <jonseb1998@gmail.com>
 ENV PYTHONUNBUFFERED 1
 
 USER 0
@@ -41,7 +41,7 @@ RUN chgrp -R 0 ${APP_ROOT} && \
 WORKDIR ${APP_ROOT}
 RUN mkdir ${APP_ROOT}/static && \
     chmod -R 0777 ${APP_ROOT}/static && \
-    chmod -R 0777 ${APP_ROOT}/pubtrack/frontend && \
+    chmod -R 0777 ${APP_ROOT}/pubtrack/frontend
 
 EXPOSE 8000
 USER 10001
