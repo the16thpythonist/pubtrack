@@ -19,8 +19,8 @@ def get_version() -> str:
         return version_file.read().replace('\n', '').replace(' ', '')
 
 
-def execute_command(command: str, verbose=True) -> Tuple[int, str]:
-    click.secho(f'[*] {command}', fg='gray')
+def execute_command(command: str, verbose: bool = True, color: str = 'cyan') -> Tuple[int, str]:
+    click.secho(f'[*] {command}', fg=color)
     output = subprocess.PIPE if verbose else subprocess.DEVNULL
     completed_process = subprocess.run(
         command,
@@ -29,7 +29,7 @@ def execute_command(command: str, verbose=True) -> Tuple[int, str]:
         stderr=output,
     )
     output = completed_process.stdout.decode()
-    click.secho(output, fg='gray')
+    click.secho(output, fg=color)
 
     return completed_process.returncode, output
 
@@ -39,13 +39,17 @@ def execute_command(command: str, verbose=True) -> Tuple[int, str]:
 
 @click.group('pubtrack', invoke_without_command=True)
 @click.option('-v', '--version', is_flag=True, help='Print the version string for the project')
+@click.option('-s', '--sudo', is_flag=True, help='Flag for using sudo status to run all docker related commands')
 @click.pass_context
-def cli(ctx, version):
+def cli(ctx, version, sudo):
     """
     == PUBTRACK COMMAND LINE UTILITIES ==
 
 
     """
+    click.secho(str(ctx))
+    ctx['sudo'] = sudo
+
     if version:
         version = get_version()
         click.secho(version, bold=True)
@@ -59,6 +63,7 @@ def build(ctx, mode):
     click.secho('==| BUILDING PUBTRACK CONTAINERS |==')
     click.secho(f'--| Mode: {mode}')
 
+    click.secho(ctx['sudo'])
     execute_command('ls -la')
 
     return 0

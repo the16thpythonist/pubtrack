@@ -39,13 +39,14 @@ RUN chgrp -R 0 ${APP_ROOT} && \
     chmod -R g=u ${APP_ROOT} /etc/passwd
 
 WORKDIR ${APP_ROOT}
+# This is super important for OpenShift!
 RUN mkdir -m 777 /.npm
 RUN mkdir ${APP_ROOT}/static && \
     chmod -R 777 ${APP_ROOT}/static && \
     chmod -R 777 ${APP_ROOT}/pubtrack/frontend
 
 EXPOSE 8000
-USER 10001
+# USER 10001
 
 # Note: A Dockerfile absolutely needs the "\" character when doing a multiline expression. Otherwise it will interpret
 # the newline as a seperate command!
