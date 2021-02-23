@@ -31,6 +31,7 @@ echo "==| STATIC FILES AND MIGRATIONS |=="
 cd /code
 python manage.py collectstatic --noinput --configuration Production
 python manage.py makemigrations
+python manage.py makemigrations pubs
 python manage.py migrate
 
 echo "==| STARTING SERVER |=="

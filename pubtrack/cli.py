@@ -8,6 +8,8 @@ import click
 PATH = pathlib.Path(__file__).parent.absolute()
 VERSION_PATH = os.path.join(PATH, 'VERSION')
 
+COMMAND_COLOR = 'cyan'
+
 
 # HELPER FUNCTIONS
 # ================
@@ -19,7 +21,13 @@ def get_version() -> str:
         return version_file.read().replace('\n', '').replace(' ', '')
 
 
-def execute_command(command: str, verbose: bool = True, color: str = 'cyan') -> Tuple[int, str]:
+def execute_command(command: str,
+                    verbose: bool = True,
+                    color: str = COMMAND_COLOR,
+                    sudo: bool = False) -> Tuple[int, str]:
+    if sudo:
+        command = f'sudo {command}'
+
     click.secho(f'[*] {command}', fg=color)
     output = subprocess.PIPE if verbose else subprocess.DEVNULL
     completed_process = subprocess.run(
@@ -32,6 +40,11 @@ def execute_command(command: str, verbose: bool = True, color: str = 'cyan') -> 
     click.secho(output, fg=color)
 
     return completed_process.returncode, output
+
+
+def echo_context(context: click.Context):
+    click.secho('==| CLI Context')
+    click.secho(f'--| Use sudo: {context.obj["sudo"]}')
 
 
 # ACTUAL CLI COMMAND IMPLEMENTATIONS
@@ -47,8 +60,9 @@ def cli(ctx, version, sudo):
 
 
     """
-    click.secho(str(ctx))
-    ctx['sudo'] = sudo
+    ctx.obj = {
+        'sudo': sudo
+    }
 
     if version:
         version = get_version()
@@ -62,9 +76,10 @@ def cli(ctx, version, sudo):
 def build(ctx, mode):
     click.secho('==| BUILDING PUBTRACK CONTAINERS |==')
     click.secho(f'--| Mode: {mode}')
+    click.secho(f'--| Use sudo: {ctx.obj["sudo"]}')
 
-    click.secho(ctx['sudo'])
-    execute_command('ls -la')
+    # 1. SET REQUIRED ENV VARIABLES
+
 
     return 0
 
